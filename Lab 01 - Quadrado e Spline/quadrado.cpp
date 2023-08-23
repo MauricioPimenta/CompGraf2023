@@ -10,7 +10,7 @@ void display(void)
    glClear (GL_COLOR_BUFFER_BIT);
 
    /* Define cor dos vértices com os valores R, G e B variando de 0.0 a 1.0 */
-   glColor3f (1.0, 1.0, 1.0);
+   glColor3f (1.0, 0.6, 0.2);
    /* Desenhar um polígono branco (retângulo) */
    glBegin(GL_POLYGON);
       glVertex3f (0.25, 0.25, 0.0);
@@ -20,13 +20,13 @@ void display(void)
    glEnd();
 
    /* Desenhar no frame buffer! */
-   glutSwapBuffers(); //Funcao apropriada para janela double buffer
+   glutSwapBuffers(); // Funcao apropriada para janela double buffer
 }
 
-void init (void) 
+void init (void)
 {
   /* selecionar cor de fundo (preto) */
-  glClearColor (0.0, 0.0, 0.0, 0.0);
+  //glClearColor (0.0, 0.0, 0.0, 0.0);
 
   /* inicializar sistema de visualizacao */
   glMatrixMode(GL_PROJECTION);
@@ -38,11 +38,11 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize (TAMANHO_JANELA, TAMANHO_JANELA); 
+    glutInitWindowSize (TAMANHO_JANELA, TAMANHO_JANELA);
     glutInitWindowPosition (100, 100);
     glutCreateWindow ("hello world");
     init ();
-    glutDisplayFunc(display); 
+    glutDisplayFunc(display);
 
     glutMainLoop();
 
