@@ -35,6 +35,11 @@
 float qX = 0.25, qY = 0.25;
 float qL = 0.5;
 
+// Variaveis globais e definicoes para funcoes do teclado
+int keyStatus[256];
+#define PRESSED		1
+#define	NOT_PRESSED	0
+
 /*
  * Cabecalhos de Funcoes do Programa
  */
@@ -42,6 +47,9 @@ void display(void);
 void init (void);
 void Redisplay(void);
 void KeyPress(unsigned char key, int x, int y);
+void keyUp(unsigned char key, int x, int y);
+void idle(void);
+
 
 
 /*
@@ -68,7 +76,9 @@ int main(int argc, char** argv)
 
 	// Define callback Functions
     glutDisplayFunc(display);		// Display Function
-	glutKeyboardFunc(KeyPress);		// Keyboard function
+	glutKeyboardFunc(KeyPress);		// Key pressed on keyboard
+	glutKeyboardUpFunc(keyUp);		// Key released
+	glutIdleFunc(idle);
 
 
 	// Inicia o Loop Principal do Programa
@@ -114,35 +124,37 @@ void init (void)
 	glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
 }
 
-void Redisplay(void){
+void KeyPress(unsigned char key, int x, int y)
+{
+	// Set the key pressed
+	keyStatus[(int) key] = PRESSED;
+
+	// Draw again
+	glutPostRedisplay();
 
 }
 
-void KeyPress(unsigned char key, int x, int y)
-{
-	// Check key presses and move the square.
-	if (key == 'w')
-	{
-		qY += 0.01;
-	}
-	else if (key == 's')
-	{
-		qY -= 0.01;
-	}
-	else if (key == 'a')
-	{
-		qX -= 0.01;
-	}
-	else if (key == 'd')
-	{
-		qX += 0.01;
-	}
-	else
-	{
-		return;
-	}
+void keyUp(unsigned char key, int x, int y){
+	// change key to 'not pressed'
+	keyStatus[(int) key] = NOT_PRESSED;
 
-	// Draw again
+	// Draw everything again
+	glutPostRedisplay();
+}
+
+void idle(void){
+
+	// Check key presses and move the square.
+	if (keyStatus[(int)('w')] == PRESSED)
+		qY += 0.001;
+	if (keyStatus[(int)('s')] == PRESSED)
+		qY -= 0.001;
+	if (keyStatus[(int)('a')] == PRESSED)
+		qX -= 0.001;
+	if (keyStatus[(int)('d')] == PRESSED)
+		qX += 0.001;
+
+	// Redraw
 	glutPostRedisplay();
 
 }
