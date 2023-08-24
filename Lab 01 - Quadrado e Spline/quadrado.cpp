@@ -22,9 +22,12 @@
 /*
  * Macros e Constantes
  */
+#define SCREEN_WIDTH	1920
+#define	SCREEN_HEIGHT	1080
+
 #define TAMANHO_JANELA 500		// Tamanho inicial da janela
-#define WIN_X	10			// Posicao inicial da janela (x,y) em relacao
-#define WIN_Y	10			// ao canto superior esquerdo
+#define WIN_X	SCREEN_WIDTH/2 - TAMANHO_JANELA/2			// Posicao inicial da janela (x,y) em relacao
+#define WIN_Y	SCREEN_HEIGHT/2 - TAMANHO_JANELA/2			// ao canto superior esquerdo
 
 
 /*
@@ -38,7 +41,9 @@ float qL = 0.5;
 // Variaveis globais e definicoes para funcoes do teclado
 int keyStatus[256];
 #define PRESSED		1
-#define	NOT_PRESSED	0
+#define	NOT_PRESSED		0
+
+#define	MOUS
 
 /*
  * Cabecalhos de Funcoes do Programa
@@ -49,6 +54,7 @@ void Redisplay(void);
 void KeyPress(unsigned char key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void idle(void);
+void mouse(int button, int state, int x, int y);
 
 
 
@@ -63,6 +69,7 @@ int main(int argc, char** argv)
 
 	// Inicializa o modo do display
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+
 
 	// Define o tamanho e a posicao da janela
     glutInitWindowSize (TAMANHO_JANELA, TAMANHO_JANELA);
@@ -79,6 +86,7 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(KeyPress);		// Key pressed on keyboard
 	glutKeyboardUpFunc(keyUp);		// Key released
 	glutIdleFunc(idle);
+	glutMouseFunc(mouse);		// Mouse Function
 
 
 	// Inicia o Loop Principal do Programa
@@ -156,5 +164,25 @@ void idle(void){
 
 	// Redraw
 	glutPostRedisplay();
+
+}
+
+void mouse(int button, int state, int x, int y){
+
+	// Inverte o valor de y, pois por padrao o (0,0) do mouse é no canto superior direito
+	y = TAMANHO_JANELA - y;
+
+	// Imprime a posicao do mouse no terminal ao clicar
+	// button = 0 -> botão direito do mous
+	// state = 0 -> botão pressionado
+	if (button == 0 & state == 0){
+		printf("\n mouse(x,y): (%d,%d)\n", x, y);
+
+		// Atualiza posicao do quadrado pra onde clicou
+		// x e y = valores de 0 a 500
+		// qX e qY = Valores de 0 a 1
+		qX = (float) x/TAMANHO_JANELA;
+		qY = (float) y/TAMANHO_JANELA;
+	}
 
 }
