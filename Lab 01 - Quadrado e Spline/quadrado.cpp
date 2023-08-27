@@ -26,6 +26,7 @@
 #define	SCREEN_HEIGHT	1080
 
 #define TAMANHO_JANELA 500		// Tamanho inicial da janela
+
 #define WIN_X	SCREEN_WIDTH/2 - TAMANHO_JANELA/2			// Posicao inicial da janela (x,y) em relacao
 #define WIN_Y	SCREEN_HEIGHT/2 - TAMANHO_JANELA/2			// ao canto superior esquerdo
 
@@ -38,12 +39,17 @@
 float qX = 0.25, qY = 0.25;
 float qL = 0.5;
 
+// Armazena tamanho da janela atual
+int winHeight = TAMANHO_JANELA;
+int winWidth = TAMANHO_JANELA;
+
 // Variaveis globais e definicoes para funcoes do teclado
 int keyStatus[256];
 #define PRESSED		1
 #define	NOT_PRESSED		0
 
-#define	MOUS
+
+
 
 /*
  * Cabecalhos de Funcoes do Programa
@@ -55,6 +61,7 @@ void KeyPress(unsigned char key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void idle(void);
 void mouse(int button, int state, int x, int y);
+
 
 
 
@@ -72,11 +79,11 @@ int main(int argc, char** argv)
 
 
 	// Define o tamanho e a posicao da janela
-    glutInitWindowSize (TAMANHO_JANELA, TAMANHO_JANELA);
+    glutInitWindowSize (winHeight, winWidth);
     glutInitWindowPosition (WIN_X, WIN_Y);
 
 	// Cria a Janela com um Nome
-	int windows = glutCreateWindow ("My Gorgeous Looking Square!");
+	int wind = glutCreateWindow ("My Gorgeous Looking Square!");
 
 	// Local function to set OpenGL initial configurations
 	init ();
@@ -87,6 +94,9 @@ int main(int argc, char** argv)
 	glutKeyboardUpFunc(keyUp);		// Key released
 	glutIdleFunc(idle);
 	glutMouseFunc(mouse);		// Mouse Function
+	
+
+	//glut
 
 
 	// Inicia o Loop Principal do Programa
@@ -130,6 +140,7 @@ void init (void)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+
 }
 
 void KeyPress(unsigned char key, int x, int y)
@@ -154,13 +165,16 @@ void idle(void){
 
 	// Check key presses and move the square.
 	if (keyStatus[(int)('w')] == PRESSED)
-		qY += 0.001;
+		qY += 0.008;
 	if (keyStatus[(int)('s')] == PRESSED)
-		qY -= 0.001;
+		qY -= 0.008;
 	if (keyStatus[(int)('a')] == PRESSED)
-		qX -= 0.001;
+		qX -= 0.008;
 	if (keyStatus[(int)('d')] == PRESSED)
-		qX += 0.001;
+		qX += 0.008;
+
+	winHeight = glutGet(GLUT_WINDOW_HEIGHT);
+	winWidth = glutGet(GLUT_WINDOW_WIDTH);
 
 	// Redraw
 	glutPostRedisplay();
@@ -169,20 +183,20 @@ void idle(void){
 
 void mouse(int button, int state, int x, int y){
 
-	// Inverte o valor de y, pois por padrao o (0,0) do mouse é no canto superior direito
-	y = TAMANHO_JANELA - y;
+	// Inverte o valor de y, pois por padrao o (0,0) do mouse é no canto superior esquerdo
+	y = winHeight - y;
 
 	// Imprime a posicao do mouse no terminal ao clicar
 	// button = 0 -> botão direito do mous
 	// state = 0 -> botão pressionado
-	if (button == 0 & state == 0){
+	if (button == GLUT_LEFT_BUTTON & state == GLUT_DOWN){
 		printf("\n mouse(x,y): (%d,%d)\n", x, y);
 
 		// Atualiza posicao do quadrado pra onde clicou
 		// x e y = valores de 0 a 500
 		// qX e qY = Valores de 0 a 1
-		qX = (float) x/TAMANHO_JANELA;
-		qY = (float) y/TAMANHO_JANELA;
+		qX = (float) x/winWidth;
+		qY = (float) y/winHeight;
 	}
 
 }
