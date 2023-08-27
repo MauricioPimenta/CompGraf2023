@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 	glutMouseFunc(mouse);		// Mouse Function
 
-	
+
 
 
 	//glut
