@@ -45,9 +45,12 @@ int winWidth = TAMANHO_JANELA;
 
 // Variaveis globais e definicoes para funcoes do teclado
 int keyStatus[256];
-#define PRESSED		1
-#define	NOT_PRESSED		0
 
+
+// Variaveis globais para funcoes do mouse
+int mouseButtonStatus[3];
+float mouseX = 0;
+float mouseY = 0;
 
 
 
@@ -94,7 +97,9 @@ int main(int argc, char** argv)
 	glutKeyboardUpFunc(keyUp);		// Key released
 	glutIdleFunc(idle);
 	glutMouseFunc(mouse);		// Mouse Function
+
 	
+
 
 	//glut
 
@@ -146,7 +151,7 @@ void init (void)
 void KeyPress(unsigned char key, int x, int y)
 {
 	// Set the key pressed
-	keyStatus[(int) key] = PRESSED;
+	keyStatus[(int) key] = GLUT_DOWN;
 
 	// Draw again
 	glutPostRedisplay();
@@ -155,7 +160,7 @@ void KeyPress(unsigned char key, int x, int y)
 
 void keyUp(unsigned char key, int x, int y){
 	// change key to 'not pressed'
-	keyStatus[(int) key] = NOT_PRESSED;
+	keyStatus[(int) key] = GLUT_UP;
 
 	// Draw everything again
 	glutPostRedisplay();
@@ -164,17 +169,19 @@ void keyUp(unsigned char key, int x, int y){
 void idle(void){
 
 	// Check key presses and move the square.
-	if (keyStatus[(int)('w')] == PRESSED)
+	if (keyStatus[(int)('w')] == GLUT_DOWN)
 		qY += 0.008;
-	if (keyStatus[(int)('s')] == PRESSED)
+	if (keyStatus[(int)('s')] == GLUT_DOWN)
 		qY -= 0.008;
-	if (keyStatus[(int)('a')] == PRESSED)
+	if (keyStatus[(int)('a')] == GLUT_DOWN)
 		qX -= 0.008;
-	if (keyStatus[(int)('d')] == PRESSED)
+	if (keyStatus[(int)('d')] == GLUT_DOWN)
 		qX += 0.008;
 
-	winHeight = glutGet(GLUT_WINDOW_HEIGHT);
-	winWidth = glutGet(GLUT_WINDOW_WIDTH);
+	if(mouseButtonStatus[GLUT_LEFT_BUTTON] == GLUT_DOWN){
+		qX = mouseX;
+		qY = mouseY;
+	}
 
 	// Redraw
 	glutPostRedisplay();
@@ -187,16 +194,28 @@ void mouse(int button, int state, int x, int y){
 	y = winHeight - y;
 
 	// Imprime a posicao do mouse no terminal ao clicar
-	// button = 0 -> botão direito do mous
-	// state = 0 -> botão pressionado
+	// button = 0 ou GLUT_LEFT_BUTTON -> botão direito do mouse
+	// state = 0 ou GLUT_DOWN-> botão pressionado
 	if (button == GLUT_LEFT_BUTTON & state == GLUT_DOWN){
 		printf("\n mouse(x,y): (%d,%d)\n", x, y);
 
+		mouseButtonStatus[button] = state;
+
+		// Armazena coordenadas do mouse em valores de 0 a 1
+		mouseX = (float) x/winWidth;
+		mouseY = (float) y/winHeight;
+
 		// Atualiza posicao do quadrado pra onde clicou
-		// x e y = valores de 0 a 500
+		// x e y = valores de 0 a winWidth e winHeight
 		// qX e qY = Valores de 0 a 1
-		qX = (float) x/winWidth;
-		qY = (float) y/winHeight;
+		//qX = (float) x/winWidth;
+		//qY = (float) y/winHeight;
+	}
+	else if(button == GLUT_LEFT_BUTTON & state == GLUT_UP){
+		printf("\n left button not pressed");
+
+		mouseButtonStatus[button] = state;
+
 	}
 
 }
