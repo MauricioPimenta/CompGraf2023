@@ -48,9 +48,8 @@ int keyStatus[256];
 
 
 // Variaveis globais para funcoes do mouse
-int mouseButtonStatus[3];
-float mouseX = 0;
-float mouseY = 0;
+float mX = 0;	// Armazena posicoes X e Y do mouse
+float mY = 0;
 
 
 
@@ -64,6 +63,7 @@ void KeyPress(unsigned char key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void idle(void);
 void mouse(int button, int state, int x, int y);
+void dragMouse(int x, int y);
 
 
 
@@ -80,6 +80,30 @@ int main(int argc, char** argv)
 	// Inicializa o modo do display
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
+	printf("\n\nArgumento argc: %d", argc);
+	printf("\nArgumentos (argv): %s", argv[0]);
+
+	if(argc == 1){
+		winHeight = TAMANHO_JANELA;
+		winWidth = TAMANHO_JANELA;
+	}
+	else if (argc == 2)
+	{
+		printf("\n\nargv = %s\n", *argv);
+		winHeight = atoi(argv[1]); printf("\n\nwinHeight: %d\n", winHeight);
+		winWidth = winHeight;
+	}
+	else if (argc == 3){
+
+		winHeight = atoi(argv[1]);
+		winWidth = atoi(argv[2]);
+	}
+	else
+	{
+		printf("\n\n Uso Errado do Programa!! BURRROOOOOOOO\n\n");
+		return -1;
+	}
+
 
 	// Define o tamanho e a posicao da janela
     glutInitWindowSize (winHeight, winWidth);
@@ -93,11 +117,15 @@ int main(int argc, char** argv)
 
 	// Define callback Functions
     glutDisplayFunc(display);		// Display Function
+
 	glutKeyboardFunc(KeyPress);		// Key pressed on keyboard
 	glutKeyboardUpFunc(keyUp);		// Key released
-	glutIdleFunc(idle);
-	glutMouseFunc(mouse);		// Mouse Function
 
+	glutIdleFunc(idle);				// Callback Idle
+
+	// Mouse Callback Functions
+	glutMouseFunc(mouse);			// Callback quando há clique do mouse
+	glutMotionFunc(dragMouse);		// Callback quando há movimento do mouse E tecla está pressionada
 
 
 
@@ -178,10 +206,10 @@ void idle(void){
 	if (keyStatus[(int)('d')] == GLUT_DOWN)
 		qX += 0.008;
 
-	if(mouseButtonStatus[GLUT_LEFT_BUTTON] == GLUT_DOWN){
-		qX = mouseX;
-		qY = mouseY;
-	}
+	// if(mouseButtonStatus[GLUT_LEFT_BUTTON] == GLUT_DOWN){
+	// 	qX = mouseX;
+	// 	qY = mouseY;
+	// }
 
 	// Redraw
 	glutPostRedisplay();
@@ -199,23 +227,41 @@ void mouse(int button, int state, int x, int y){
 	if (button == GLUT_LEFT_BUTTON & state == GLUT_DOWN){
 		printf("\n mouse(x,y): (%d,%d)\n", x, y);
 
-		mouseButtonStatus[button] = state;
-
 		// Armazena coordenadas do mouse em valores de 0 a 1
-		mouseX = (float) x/winWidth;
-		mouseY = (float) y/winHeight;
+		float mouseX = (float) x/winWidth;
+		float mouseY = (float) y/winHeight;
 
-		// Atualiza posicao do quadrado pra onde clicou
-		// x e y = valores de 0 a winWidth e winHeight
-		// qX e qY = Valores de 0 a 1
-		//qX = (float) x/winWidth;
-		//qY = (float) y/winHeight;
-	}
-	else if(button == GLUT_LEFT_BUTTON & state == GLUT_UP){
-		printf("\n left button not pressed");
-
-		mouseButtonStatus[button] = state;
-
+		// Armazena a posicao inicial do clique
+		mX = mouseX;
+		mY = mouseY;
 	}
 
+	glutPostRedisplay();
+
+}
+
+void dragMouse(int x, int y){
+
+	// Inverte o valor de y, pois por padrao o (0,0) do mouse é no canto superior esquerdo
+	y = winHeight - y;
+	printf("\n mouse move (x,y): (%d,%d)\n", x, y);
+
+	// Armazena coordenadas do mouse em valores de 0 a 1
+	float mouseX = (float) x/winWidth;
+	float mouseY = (float) y/winHeight;
+
+	// Se as coordenadas do mouse representarem pontos internos ao quadrado,
+	// permite o arraste do quadrado -> Muda qX e qY
+	if (mouseX > qX && mouseX < (qX + qL) && mouseY > qY && mouseY < (qY + qL))
+	{
+		// Atualiza a posicao do objeto e redesenha.
+		qX += (mouseX - mX);
+		qY += (mouseY - mY);
+	}
+
+	mX = mouseX;
+	mY = mouseY;
+
+
+	glutPostRedisplay();
 }
