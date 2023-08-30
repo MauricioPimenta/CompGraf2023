@@ -106,6 +106,17 @@ void reshape(int w, int h)
    glLoadIdentity();
 }
 
+void mouseClick (int button, int state, int x, int y){
+
+}
+
+void mouseClickMov(int x, int y){
+
+}
+
+
+
+
 int main(int argc, char** argv)
 {
    glutInit(&argc, argv);
@@ -118,6 +129,9 @@ int main(int argc, char** argv)
 
    glutDisplayFunc(display);
    glutReshapeFunc(reshape);
+
+   glutMouseFunc(mouseClick);
+   glutMotionFunc(mouseClickMov);
 
 
    glutMainLoop();
