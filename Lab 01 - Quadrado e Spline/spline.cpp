@@ -1,10 +1,37 @@
+/***********************************************************************
+ * Arquivo: spline.cpp
+ *
+ * Autor: Maurício Bittencourt Pimenta
+ *
+ * Descrição:
+ *
+ * Aprendendo a usar OpenGL, GLU e Glut
+ *
+ * Objetivo: Trabalhar os conceitos básicos de Spline incluindo a
+ * construção de uma aplicação gráfica sobre o tema.
+ *
+ * - Implementar interações de mouse e teclado com a spline
+ * 		- Modificar a Spline ao arrastar os vertices
+ ***********************************************************************/
+
+
+/*
+ * Bibliotecas usadas no codigo
+ */
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <stdlib.h>
 #include <GL/glut.h>
+
+/*
+ * Macros e Constantes
+ */
 #define TAMANHO_JANELA 500
 
-float size = 5.0;
+/*
+ * Variaveis Globais Necessárias
+ */
+float size = 5.0;	// Tamanho do "mundo" das coordenadas da janela
 
 //Pontos de controle da Spline
 GLfloat ctrlpoints[4][3] = {
@@ -23,6 +50,7 @@ void init(void)
    //Muda para a matriz de projecao (aulas futuras)
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
+
    //Define a area/volume de visualizacao. Os objetos desenhados devem estar dentro desta area
    glOrtho(-size, size, -size, size, -size, size);
 }
@@ -35,7 +63,9 @@ void display(void)
 
    /* Desenha a curva aproximada por n+1 pontos. */
    int n = 30;
+
    glColor3f(1.0, 1.0, 1.0);
+
    glBegin(GL_LINE_STRIP);
       for (i = 0; i <= n; i++){
         //Avaliacao do polinomio, retorna um vertice (equivalente a um glVertex3fv)
@@ -83,9 +113,13 @@ int main(int argc, char** argv)
    glutInitWindowSize (TAMANHO_JANELA, TAMANHO_JANELA);
    glutInitWindowPosition (100, 100);
    glutCreateWindow (argv[0]);
+
    init ();
+
    glutDisplayFunc(display);
    glutReshapeFunc(reshape);
+
+
    glutMainLoop();
    return 0;
 }
