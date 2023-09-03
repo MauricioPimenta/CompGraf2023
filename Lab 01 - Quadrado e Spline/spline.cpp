@@ -28,32 +28,44 @@
  */
 #define TAMANHO_JANELA 500
 
+#define	TITLE	"Lab 01 - Spline"	// Define o titulo da janela
+
+
 /*
- * Variaveis Globais Necessárias
+ * ---------------------------------------------
+ *
+ * -----    Necessary Global Variables    ------
+ *
+ * ---------------------------------------------
  */
-float size = 5.0;	// Tamanho do "mundo" das coordenadas da janela
+	float size = 5.0;	// Tamanho do "mundo" das coordenadas da janela
 
-//Pontos de controle da Spline
-GLfloat ctrlpoints[4][3] = {
-        { -4.0, -4.0, 0.0}, { -2.0, 4.0, 0.0},
-        {2.0, -4.0, 0.0}, {4.0, 4.0, 0.0}};
+	// Pontos de controle da Spline
+	GLfloat ctrlpoints[4][3] = {
+			{ -4.0, -4.0, 0.0}, { -2.0, 4.0, 0.0},
+			{2.0, -4.0, 0.0}, {4.0, 4.0, 0.0}};
 
-void init(void)
-{
-   glClearColor(0.0, 0.0, 0.0, 0.0);
-   glShadeModel(GL_FLAT);
-   glEnable(GL_MAP1_VERTEX_3);
 
-   //Definicao do polinomio com os pontos de controle
-   glMap1f(GL_MAP1_VERTEX_3, 0.0, 1.0, 3, 4, &ctrlpoints[0][0]);
+	/*
+	 * CONTROLE DAS OPERAÇÕES COM O MOUSE
+	 */
 
-   //Muda para a matriz de projecao (aulas futuras)
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
+	int mousePos[2] = {0, 0};		// Armazena a ultima posicao do mouse lida
+	bool mouseDrag = false;		// Possibilita arraste dos objetos com o mouse
 
-   //Define a area/volume de visualizacao. Os objetos desenhados devem estar dentro desta area
-   glOrtho(-size, size, -size, size, -size, size);
-}
+
+/*
+ * ---- Function Headers ----
+ */
+
+void init(void);
+
+
+
+
+/*
+ * ---- GLUT CALLBACK FUNCTIONS IMPLEMENTED ----
+ */
 
 void display(void)
 {
@@ -68,7 +80,7 @@ void display(void)
 
    glBegin(GL_LINE_STRIP);
       for (i = 0; i <= n; i++){
-        //Avaliacao do polinomio, retorna um vertice (equivalente a um glVertex3fv)
+        // Avaliacao do polinomio, retorna um vertice (equivalente a um glVertex3fv)
         glEvalCoord1f((GLfloat) i/(GLfloat)n);
       }
    glEnd();
@@ -84,16 +96,24 @@ void display(void)
    glutSwapBuffers();
 }
 
+/*
+ * Callback de glutReshapeFunc(int w, int h)
+ *   --> receives the new width and height of the window after resizing and exiting the mainLoop
+ *
+ * A funcao recebe:
+ * int w -> new width of the window, in pixels.
+ * int h -> new height of the window, in pixels.
+ */
 void reshape(int w, int h)
 {
-   //Define a porcao visivel da janela
+   // Define a porcao visivel da janela
    glViewport(0, 0, (GLsizei) w, (GLsizei) h);
 
-   //Muda para a matriz de projecao (aulas futuras)
+   // Muda para a matriz de projecao (aulas futuras)
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
 
-   //Controla o redimensionamento da janela mantendo o aspect ration do objeto
+   // Controla o redimensionamento da janela mantendo o aspect-ratio do objeto
    if (w <= h)
       glOrtho(-size, size, -size*(GLfloat)h/(GLfloat)w,
                size*(GLfloat)h/(GLfloat)w, -size, size);
@@ -101,31 +121,70 @@ void reshape(int w, int h)
       glOrtho(-size*(GLfloat)w/(GLfloat)h,
                size*(GLfloat)w/(GLfloat)h, -size, size, -size, size);
 
-   //Muda para a matriz de trasformacoes (aulas futuras)
+   // Muda para a matriz de trasformacoes (aulas futuras)
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
 }
 
+/*
+ * Callback de glutMouseFunc(int button, int state, int x, int y)
+ * Executa ao clicar com o mouse
+ *
+ * A funcao recebe:
+ * int button -> Botao Pressionado pelo mouse.
+ * state -> estado do botao - GLUT_UP = 1 ou GLUT_DOWN = 0
+ * int x -> Posicao 'x' do mouse, em pixels.
+ * int y -> Posicao 'y' do mouse, em pixels.
+ *
+ * Obs: A origem (0,0) é o canto superior esquerdo da janela da aplicação.
+ */
 void mouseClick (int button, int state, int x, int y){
 
+	// Coloca a origem no canto inferior esquerdo da janela
+	y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
+	mousePos[0] = x;
+	mousePos[1] = y;
 }
 
+/*
+ * Callback de glutMotionFunc(int x, int y)
+ * Executa ao mover o mouse com o botão pressionado
+ *
+ * A funcao recebe:
+ * int x -> Posicao 'x' do mouse, em pixels.
+ * int y -> Posicao 'y' do mouse, em pixels.
+ *
+ * Obs: A origem (0,0) é o canto superior esquerdo da janela da aplicação.
+ */
 void mouseClickMov(int x, int y){
 
+	// Coloca a origem no canto inferior esquerdo da janela
+	y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
+	// Atualiza posicao do mouse
+	mousePos[0] = x;
+	mousePos[1] = y;
 }
 
 
 
+/*
+   -------------------------------------------
 
+   --------- THE ALL POWERFULL MAIN ----------
+
+   -------------------------------------------
+ */
 int main(int argc, char** argv)
 {
    glutInit(&argc, argv);
    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
    glutInitWindowSize (TAMANHO_JANELA, TAMANHO_JANELA);
    glutInitWindowPosition (100, 100);
-   glutCreateWindow (argv[0]);
+   glutCreateWindow (TITLE);
 
-   init ();
+   init();
 
    glutDisplayFunc(display);
    glutReshapeFunc(reshape);
@@ -136,4 +195,28 @@ int main(int argc, char** argv)
 
    glutMainLoop();
    return 0;
+}
+
+/*
+ * Outras Funcoes do Programa
+ */
+
+/*
+ * void init(void) - Funcao para inicializar o ambiente OpenGL
+ */
+void init(void)
+{
+   glClearColor(0.0, 0.0, 0.0, 0.0);
+   glShadeModel(GL_FLAT);
+   glEnable(GL_MAP1_VERTEX_3);
+
+   // Definicao do polinomio com os pontos de controle
+   glMap1f(GL_MAP1_VERTEX_3, 0.0, 1.0, 3, 4, &ctrlpoints[0][0]);
+
+   // Muda para a matriz de projecao (aulas futuras)
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
+
+   // Define a area/volume de visualizacao. Os objetos desenhados devem estar dentro desta area
+   glOrtho(-size, size, -size, size, -size, size);
 }

@@ -63,7 +63,7 @@ bool dragm = false;		// setado se estiver arrastando um objeto
  */
 void display(void);
 void init (void);
-void Redisplay(void);
+//void Redisplay(void);
 void KeyPress(unsigned char key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void idle(void);
