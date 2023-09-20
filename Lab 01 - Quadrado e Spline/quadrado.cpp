@@ -128,7 +128,7 @@ int main(int argc, char** argv)
 
 	// Local function to set OpenGL initial configurations
 	init ();
-	
+
 
 	// Define callback Functions
     glutDisplayFunc(display);		// Display Function
