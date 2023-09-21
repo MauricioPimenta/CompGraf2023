@@ -6,8 +6,10 @@
 #include <stdio.h>
 #include "robo.h"
 #include "alvo.h"
+
+
 #define INC_KEY 1
-#define INC_KEYIDLE 0.01
+#define INC_KEYIDLE 1
 
 //Key status
 int keyStatus[256];
@@ -112,11 +114,11 @@ void init(void)
     // The color the windows will redraw. Its done to erase the previous frame.
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
 
-    glMatrixMode(GL_PROJECTION); // Select the projection matrix
-    glOrtho(-(ViewingWidth/2),     // X coordinate of left edge
-            (ViewingWidth/2),     // X coordinate of right edge
+    glMatrixMode(GL_PROJECTION);	// Select the projection matrix
+    glOrtho(-(ViewingWidth/2),		// X coordinate of left edge
+            (ViewingWidth/2),		// X coordinate of right edge
             -(ViewingHeight/2),     // Y coordinate of bottom edge
-            (ViewingHeight/2),     // Y coordinate of top edge
+            (ViewingHeight/2),		// Y coordinate of top edge
             -100,     // Z coordinate of the “near” plane
             100);    // Z coordinate of the “far” plane
     glMatrixMode(GL_MODELVIEW); // Select the projection matrix
