@@ -5,7 +5,7 @@ void Robo::DesenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat 
 {
 	/* Define cor dos vértices com os valores R, G e B variando de 0.0 a 1.0 */
 	glColor3f (R, G, B);
-	
+
 	// Desenha um quadrado com altura = height e largura = width
 	// com a origem no ponto central da base do retangulo
 	//
