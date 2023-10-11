@@ -59,7 +59,7 @@ public:
     void RodaBraco3(GLfloat inc);
     void MoveEmX(GLfloat dx);
     void setSpeed(GLfloat s);
-	
+
 	Tiro* Atira();
 
     GLfloat ObtemX(){
