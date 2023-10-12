@@ -15,8 +15,11 @@
  */
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glut.h>
+#include <GL/glut.h>		// Include freeglut_std.h
+#include <GL/freeglut.h>	// Include freeglut_std.h and freeglut_ext.h
 #include <stdio.h>
+
+#include "rect.h"
 
 
 /*
@@ -34,14 +37,18 @@
 int keyStatus[256];
 
 // Window dimensions
-const GLint Width = 700;
+const GLint Width = 500;
 const GLint Height = 700;
 
 // Viewing dimensions
-const GLint ViewingWidth = 500;
+const GLint ViewingWidth = 200;
 const GLint ViewingHeight = 500;
 
-
+/*
+ * Function Declarations
+ */
+void loadConfig(FILE* f);
+void ResetKeyStatus();
 
 /*
  * Callback Functions
@@ -50,17 +57,18 @@ const GLint ViewingHeight = 500;
 void init(void)
 {
     ResetKeyStatus();
+
     // The color the windows will redraw. Its done to erase the previous frame.
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
 
-    glMatrixMode(GL_PROJECTION);	// Select the projection matrix
-    glOrtho(-(ViewingWidth/2),		// X coordinate of left edge
-            (ViewingWidth/2),		// X coordinate of right edge
-            -(ViewingHeight/2),     // Y coordinate of bottom edge
-            (ViewingHeight/2),		// Y coordinate of top edge
-            -100,     // Z coordinate of the “near” plane
-            100);    // Z coordinate of the “far” plane
-    glMatrixMode(GL_MODELVIEW); // Select the projection matrix
+    glMatrixMode(GL_PROJECTION);	// Select the projection matrix
+    glOrtho(-(ViewingWidth/2),		// X coordinate of left edge
+            (ViewingWidth/2),		// X coordinate of right edge
+            -(ViewingHeight/2),		// Y coordinate of bottom edge
+            (ViewingHeight/2),		// Y coordinate of top edge
+            -100,					// Z coordinate of the “near” plane
+            100);					// Z coordinate of the “far” plane
+    glMatrixMode(GL_MODELVIEW); // Select the projection matrix
     glLoadIdentity();
 
 }
@@ -72,14 +80,6 @@ void keyup(unsigned char key, int x, int y)
 {
     keyStatus[(int)(key)] = 0;
     glutPostRedisplay();
-}
-
-void ResetKeyStatus()
-{
-    int i;
-    //Initialize keyStatus
-    for(i = 0; i < 256; i++)
-       keyStatus[i] = 0;
 }
 
 void renderScene(){
@@ -106,7 +106,7 @@ int main (int argc, char** argv)
     // Create the window.
     glutInitWindowSize(Width, Height);
     glutInitWindowPosition(150,50);
-    glutCreateWindow("Tranformations 2D");
+    glutCreateWindow("");
 
     // Define callbacks.
     glutDisplayFunc(renderScene);
@@ -129,4 +129,12 @@ int main (int argc, char** argv)
 
 void loadConfig(FILE* f){
 	// TODO
+}
+
+void ResetKeyStatus()
+{
+    int i;
+    //Initialize keyStatus
+    for(i = 0; i < 256; i++)
+       keyStatus[i] = 0;
 }

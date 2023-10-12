@@ -2,7 +2,7 @@
  * rect.cpp
  *
  * Implementation of the functions of Class Rect.h used to define and draw
- * a Rectangule using OpenGL 1.0
+ * a Rectangle using OpenGL 1.0
  *
  * Developed for UFES's Computer Graphics class - INF16014
  * Prof: Thiago Oliveira dos Santos
@@ -31,7 +31,7 @@
 // DrawCentered
 void Rect::DrawCenteredOn(GLfloat height, GLfloat width, Anchor place, GLfloat* Color){
 
-	// Define vertice Color with RGB values between 0.0 and 1.0
+	// Define vertices Color with RGB values between 0.0 and 1.0
 	glColor3f (Color[RED], Color[GREEN], Color[BLUE]);
 
 	// Desenha um quadrado com altura = height e largura = width
@@ -133,21 +133,6 @@ void Rect::DrawCenteredOn(GLfloat height, GLfloat width, Anchor place, GLfloat* 
 		default:
 			break;
 	}
-
-	glBegin(GL_POLYGON);
-		glVertex3f (-width, -height, 0.0);
-		glVertex3f (width, -height, 0.0);
-		glVertex3f (width, height, 0.0);
-		glVertex3f (-width, height, 0.0);
-	glEnd();
-
-	// (0,0) on the bottom-center of the Rect
-	glBegin(GL_POLYGON);
-		glVertex3f (-width/2, 0, 0.0);
-		glVertex3f (width/2, 0, 0.0);
-		glVertex3f (width/2, 2*height/2, 0.0);
-		glVertex3f (-width/2, 2*height/2, 0.0);
-	glEnd();
 
 
 }
