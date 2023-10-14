@@ -114,14 +114,19 @@ void renderScene(){
 
 void idle(void){
 	// TODO
+	// A static variable to keep the value after leaving the function call
 	static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);
-	GLdouble currentTime, timeDiference;
-	//Pega o tempo que passou do inicio da aplicacao
-	currentTime = glutGet(GLUT_ELAPSED_TIME);
-	// Calcula o tempo decorrido desde de a ultima frame.
-	timeDiference = currentTime - previousTime;
-	//Atualiza o tempo do ultimo frame ocorrido
+
+	// Pega o tempo que passou do inicio da aplicacao
+	GLdouble currentTime = glutGet(GLUT_ELAPSED_TIME);
+
+	// Calcula o tempo decorrido desde a ultima frame.
+	GLdouble timeDiference = currentTime - previousTime;
+
+	// Atualiza o tempo do ultimo frame ocorrido
 	previousTime = currentTime;
+
+
 	glutPostRedisplay();
 }
 
