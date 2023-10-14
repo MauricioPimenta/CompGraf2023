@@ -37,7 +37,7 @@ class Circle
     GLfloat radius {RADIUS};
 	GLfloat PositionX {ORIGIN_X};
 	GLfloat PositionY {ORIGIN_Y};
-	GLfloat Color[3] {1.0, 1.0, 1.0};	// Colors of the Rectangle - Default is White
+	GLfloat Color[3] {1.0, 1.0, 1.0};	// Colors of the Circle - Default is White
 
 	/*
 	 * Private Atributes and Methods of the Class

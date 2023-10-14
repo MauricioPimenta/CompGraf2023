@@ -33,18 +33,19 @@
 void Circle::DrawCircle(GLfloat radius, GLfloat* Color){
 
 	// Define vertices Color with RGB values between 0.0 and 1.0
-	glColor3f (Color[RED], Color[GREEN], Color[BLUE]);
+	//glColor3f (Color[RED], Color[GREEN], Color[BLUE]);
+	glColor3f(1,1,1);
 
-	float ang = 10;
+	float ang = 20*M_PI/180; // 20 degrees = 20 * pi / 180 radians
 	GLfloat X1 = PositionX;
 	GLfloat Y1 = PositionY + radius;
 
 	glBegin(GL_POLYGON);
 		glVertex2f(X1, Y1);
-		for (int i = 0; i < 360; i = i + ang)
+		for (float i = ang; i <= 2*M_PI; i += ang)
 		{
-			GLfloat Vx = PositionX + radius*cos(90-i);
-			GLfloat Vy = PositionY + radius*sin(90-i);
+			GLfloat Vx = PositionX + radius*cos(0.5*M_PI - i);
+			GLfloat Vy = PositionY + radius*sin(0.5*M_PI - i);
 			glVertex2f(Vx,Vy);
 		}
 	glEnd;

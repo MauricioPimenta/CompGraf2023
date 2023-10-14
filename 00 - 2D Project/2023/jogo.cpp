@@ -13,13 +13,19 @@
 /*
  * Libraries
  */
+
+// OpenGL
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>		// Include freeglut_std.h
 #include <GL/freeglut.h>	// Include freeglut_std.h and freeglut_ext.h
+
+// c and c++ libraries
 #include <stdio.h>
 
-#include "rect.h"
+// Local Libraries + Project Classes
+#include "Classes/rect.h"
+#include "Classes/circle.h"
 
 
 /*
@@ -27,6 +33,8 @@
  */
 #define INC_KEY 1
 #define INC_KEYIDLE 1
+
+#define GAME_TITLE	"Jogo do Bebum"
 
 
 /*
@@ -43,6 +51,11 @@ const GLint Height = 700;
 // Viewing dimensions
 const GLint ViewingWidth = 200;
 const GLint ViewingHeight = 500;
+
+// Circle to test drawing
+Circle c = Circle();
+Rect R = Rect();
+
 
 /*
  * Function Declarations
@@ -72,9 +85,12 @@ void init(void)
     glLoadIdentity();
 
 }
+
+
 void keyPress(unsigned char key, int x, int y){
 	// TODO
 }
+
 
 void keyup(unsigned char key, int x, int y)
 {
@@ -82,13 +98,33 @@ void keyup(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
+
 void renderScene(){
 	// TODO
+
+	// Clear the screen.
+    glClear(GL_COLOR_BUFFER_BIT);
+
+	//R.Draw();
+	c.Draw();
+
+	glutSwapBuffers(); // Draw the new frame of the game.
 }
+
 
 void idle(void){
 	// TODO
+	static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);
+	GLdouble currentTime, timeDiference;
+	//Pega o tempo que passou do inicio da aplicacao
+	currentTime = glutGet(GLUT_ELAPSED_TIME);
+	// Calcula o tempo decorrido desde de a ultima frame.
+	timeDiference = currentTime - previousTime;
+	//Atualiza o tempo do ultimo frame ocorrido
+	previousTime = currentTime;
+	glutPostRedisplay();
 }
+
 
 /*
  * Main Function
@@ -106,7 +142,7 @@ int main (int argc, char** argv)
     // Create the window.
     glutInitWindowSize(Width, Height);
     glutInitWindowPosition(150,50);
-    glutCreateWindow("");
+    glutCreateWindow(GAME_TITLE);
 
     // Define callbacks.
     glutDisplayFunc(renderScene);
