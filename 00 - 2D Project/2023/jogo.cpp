@@ -49,7 +49,7 @@ const GLint Width = 500;
 const GLint Height = 700;
 
 // Viewing dimensions
-const GLint ViewingWidth = 200;
+const GLint ViewingWidth = 500;
 const GLint ViewingHeight = 500;
 
 // Circle to test drawing
@@ -115,19 +115,26 @@ void renderScene(){
 void idle(void){
 	// TODO
 	// A static variable to keep the value after leaving the function call
-	static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);
+	static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);	// in miliseconds
+
+	static GLdouble RenderInterval = 1000*(1/60); // time to render based on 60fps - in miliseconds
+	static GLdouble RenderTime = 0;
 
 	// Pega o tempo que passou do inicio da aplicacao
-	GLdouble currentTime = glutGet(GLUT_ELAPSED_TIME);
+	GLdouble currentTime = glutGet(GLUT_ELAPSED_TIME);	// in miliseconds
 
 	// Calcula o tempo decorrido desde a ultima frame.
-	GLdouble timeDiference = currentTime - previousTime;
-
+	GLdouble timeDiference = currentTime - previousTime;	// in ms
+	RenderTime += timeDiference;
 	// Atualiza o tempo do ultimo frame ocorrido
 	previousTime = currentTime;
 
-
-	glutPostRedisplay();
+	if (RenderTime >= RenderInterval)
+	{
+		// Redraw Everything and reset RenderTime
+		RenderTime = 0;
+		glutPostRedisplay();
+	}
 }
 
 

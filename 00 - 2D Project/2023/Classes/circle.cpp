@@ -17,6 +17,8 @@
 #include "circle.h"
 #include <cmath>
 
+#include <iostream>
+
 
 /*
  * Constants
@@ -42,11 +44,15 @@ void Circle::DrawCircle(GLfloat radius, GLfloat* Color){
 
 	glBegin(GL_POLYGON);
 		glVertex2f(X1, Y1);
+
 		for (float i = ang; i <= 2*M_PI; i += ang)
 		{
 			GLfloat Vx = PositionX + radius*cos(0.5*M_PI - i);
 			GLfloat Vy = PositionY + radius*sin(0.5*M_PI - i);
+			// std::cout << "\nVx = " << Vx;
+			// std::cout << "\nVy = " << Vy;
+			// std::cout << "\n.......\n";
 			glVertex2f(Vx,Vy);
 		}
-	glEnd;
+	glEnd();
 }
