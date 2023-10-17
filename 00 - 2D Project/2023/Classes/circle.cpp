@@ -13,12 +13,10 @@
 /*
  * Libraries
  */
-
 #include "circle.h"
+
 #include <cmath>
-
-#include <iostream>
-
+#include <stdio.h>
 
 /*
  * Constants
@@ -32,27 +30,46 @@
  */
 
 
-void Circle::DrawCircle(GLfloat radius, GLfloat* Color){
+void Circle::Draw(){
+
+	if (this->Vertices2f == NULL)
+	{
+		printf("\nVertices not defined\n");
+		return;
+	}
+
+	//static int n_draw = 0;
+	//printf("\tDrawing circle: %d\n", ++n_draw);
 
 	// Define vertices Color with RGB values between 0.0 and 1.0
-	//glColor3f (Color[RED], Color[GREEN], Color[BLUE]);
-	glColor3f(1,1,1);
-
-	float ang = 20*M_PI/180; // 20 degrees = 20 * pi / 180 radians
-	GLfloat X1 = PositionX;
-	GLfloat Y1 = PositionY + radius;
+	glColor3f (this->Color[RED], this->Color[GREEN], this->Color[BLUE]);
+	//glColor3f(1,1,1);
 
 	glBegin(GL_POLYGON);
-		glVertex2f(X1, Y1);
 
-		for (float i = ang; i <= 2*M_PI; i += ang)
-		{
-			GLfloat Vx = PositionX + radius*cos(0.5*M_PI - i);
-			GLfloat Vy = PositionY + radius*sin(0.5*M_PI - i);
-			// std::cout << "\nVx = " << Vx;
-			// std::cout << "\nVy = " << Vy;
-			// std::cout << "\n.......\n";
-			glVertex2f(Vx,Vy);
-		}
+		for (int i = 0; i <= 2*NUM_VERTICES-1; i+=2)
+			glVertex2f(this->Vertices2f[i], this->Vertices2f[i+1]);
+
 	glEnd();
+}
+
+void Circle::defineVertices(){
+
+	// ang_inc = (ang_end - ang_begin)/NUM_VERTICES;
+	// angulo de intervalo entre os vertices do circulo
+	float ang_inc = 2*M_PI/NUM_VERTICES;
+	printf("\n\nang_inc = %.2f\n", ang_inc);
+
+	float ang = 0;
+	int i = 0;
+	for (i = 0; i <= (2*NUM_VERTICES-1); i+=2){
+
+		this->Vertices2f[i] = this->PositionX + this->radius*cos(ang);
+		this->Vertices2f[i+1] = this->PositionY + this->radius*sin(ang);
+
+		printf("\n (X,Y): ( %.2f , %.2f )", this->Vertices2f[i], this->Vertices2f[i+1]);
+
+		printf("\t\tang = %f", ang += ang_inc);
+	}
+	printf("\n\nangulo final = %.2f\n\n i = %d\n\n", ang, i);
 }

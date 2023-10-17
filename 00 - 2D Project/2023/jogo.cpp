@@ -45,12 +45,12 @@
 int keyStatus[256];
 
 // Window dimensions
-const GLint Width = 500;
-const GLint Height = 700;
+GLint winWidth = 500;
+GLint winHeight = 700;
 
 // Viewing dimensions
-const GLint ViewingWidth = 500;
-const GLint ViewingHeight = 500;
+GLint ViewingWidth = winWidth;
+GLint ViewingHeight = winHeight;
 
 // Circle to test drawing
 Circle c = Circle();
@@ -60,7 +60,7 @@ Rect R = Rect();
 /*
  * Function Declarations
  */
-void loadConfig(FILE* f);
+void loadConfig();
 void ResetKeyStatus();
 
 /*
@@ -81,7 +81,7 @@ void init(void)
             (ViewingHeight/2),		// Y coordinate of top edge
             -100,					// Z coordinate of the “near” plane
             100);					// Z coordinate of the “far” plane
-    glMatrixMode(GL_MODELVIEW); // Select the projection matrix
+    glMatrixMode(GL_MODELVIEW); // Select the model view matrix
     glLoadIdentity();
 
 }
@@ -135,6 +135,35 @@ void idle(void){
 		RenderTime = 0;
 		glutPostRedisplay();
 	}
+
+	// Check resizing of the window
+	GLint width = glutGet(GLUT_WINDOW_WIDTH);
+	GLint height = glutGet(GLUT_WINDOW_HEIGHT);
+
+	if (width !=  winWidth || height != winHeight)
+	{
+		glPushMatrix();	// Saves the Matrix Stack
+
+		// The color the windows will redraw. Its done to erase the previous frame.
+		//glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
+
+		glMatrixMode(GL_PROJECTION);	// Select the projection matrix
+		// Reset the Projection Matrix
+		glLoadIdentity();
+		// And multiply the Projection Matrix by the new Ortho
+		glOrtho(-(width/2),		// X coordinate of left edge
+				(width/2),		// X coordinate of right edge
+				-(height/2),		// Y coordinate of bottom edge
+				(height/2),		// Y coordinate of top edge
+				-100,					// Z coordinate of the “near” plane
+				100);					// Z coordinate of the “far” plane
+		glMatrixMode(GL_MODELVIEW); // Select the projection matrix
+
+		glPopMatrix();	// Load the Matrix Stack
+
+		glutPostRedisplay();	// Redraw
+	}
+
 }
 
 
@@ -144,7 +173,7 @@ void idle(void){
 int main (int argc, char** argv)
 {
 	// Load Configuration File
-	void loadConfig(FILE* f);
+	loadConfig();
 
 	// Initialize openGL with Double buffer and RGB color without transparency.
     // Its interesting to try GLUT_SINGLE instead of GLUT_DOUBLE.
@@ -152,7 +181,7 @@ int main (int argc, char** argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 
     // Create the window.
-    glutInitWindowSize(Width, Height);
+    glutInitWindowSize(winWidth, winHeight);
     glutInitWindowPosition(150,50);
     glutCreateWindow(GAME_TITLE);
 
@@ -175,8 +204,9 @@ int main (int argc, char** argv)
  * Local Functions
  */
 
-void loadConfig(FILE* f){
+void loadConfig(){
 	// TODO
+	c.setFillColor3f(0.8, 0.2, 0.2);
 }
 
 void ResetKeyStatus()

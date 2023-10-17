@@ -1,5 +1,6 @@
 Target = trabalhocg
 Compiler = g++
+Debugger = -g
 CompOpt = -Wall -Werror
 
 BaseFile = jogo.cpp
@@ -14,3 +15,5 @@ Libs = -lm
 all: $(BaseFile) $(Classes)
 	$(Compiler) $(BaseFile) -o $(Target) $(Classes) $(OpenGLibs) $(Libs)
 
+debug: $(BaseFile) $(Classes)
+	$(Compiler) $(Debugger) $(BaseFile) -o $(Target) $(Classes) $(OpenGLibs) $(Libs)
