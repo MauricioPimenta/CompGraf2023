@@ -32,17 +32,21 @@ class Human
 {
 private:
 	/* Constants and Default Values */
-	static const short RED   = 0;
-	static const short GREEN = 1;
-	static const short BLUE  = 2;
+	enum Colors{
+		RED,
+		GREEN,
+		BLUE
+	};
 
 	/* data */
 	Circle Head;
-	GLint headSize {HEAD_SIZE};
+	GLfloat headSize {HEAD_SIZE};
 	GLfloat headColor[3] {1.0, 1.0, 1.0};
 
 	Rect leftLeg;
 	Rect rightLeg;
+	GLfloat legWidth {headSize/4};
+	GLfloat legSize {headSize/2};
 
 	Rect Gun;
 
@@ -54,7 +58,8 @@ private:
 public:
 	Human(){
 		// Inicialize the Human and its parts
-		Head = Circle(headSize, PositionX, PositionY, headColor[RED], headColor[GREEN], headColor[BLUE]);
+		Head = Circle(headSize/2, PositionX, PositionY, headColor[RED], headColor[GREEN], headColor[BLUE]);
+		leftLeg = Rect(legWidth, legSize); // TODO : Define Position of Leg and its color
 
 	}
 	~Human();
