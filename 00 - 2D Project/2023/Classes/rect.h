@@ -30,34 +30,35 @@
 /*
  * Class Definition
  */
-class Rect
-{
-	// Determine the point of the object that will be on the origin when created
-	enum Anchor
-	{
-		center,
-		center_b,
-		center_t,
-		left,
-		left_b,
-		left_t,
-		right,
-		right_b,
-		right_t
-	};
+class Rect{
+	public:
+		// Determine the point of the object that will be on the origin when created
+		enum Anchor
+		{
+			center,
+			center_b,
+			center_t,
+			left,
+			left_b,
+			left_t,
+			right,
+			right_b,
+			right_t
+		};
 
-	// Class Atributes
-    GLfloat width {WIDTH};	// inside {} is the default values. same as width = WIDTH
-	GLfloat height {HEIGHT};
-	GLfloat PositionX {ORIGIN_X};
-	GLfloat PositionY {ORIGIN_Y};
-	GLfloat Color[3] {1.0, 1.0, 1.0};	// Colors of the Rectangle - Default is White
-	Anchor	anchorPlace {center};
-
-	/*
-	 * Private Atributes and Methods of the Class
-	 */
 	private:
+		// Class Atributes
+		GLfloat width {WIDTH};	// inside {} is the default values. same as width = WIDTH
+		GLfloat height {HEIGHT};
+		GLfloat PositionX {ORIGIN_X};
+		GLfloat PositionY {ORIGIN_Y};
+		GLfloat Color[3] {1.0, 1.0, 1.0};	// Colors of the Rectangle - Default is White
+		Anchor	anchorPlace {center};
+
+		/*
+		* Private Atributes and Methods of the Class
+		*/
+
 		/* Private Atributes */
 
 
@@ -65,9 +66,11 @@ class Rect
 		void DrawCenteredOn(GLfloat height, GLfloat width, Anchor place, GLfloat* Color);
 
 	/*
-	 * Public Methods of the Class
+	 * Public Atributes and Methods of the Class
 	 */
 	public:
+		/* Public Atributes */
+
 		// Constructors of the Class
 		Rect(){
 
@@ -80,6 +83,10 @@ class Rect
 		}
 		Rect(float w, float h, float X, float Y, GLfloat Red, GLfloat Green, GLfloat Blue) :
 			 width(w), height(h), PositionX(X), PositionY(Y), Color{Red, Green, Blue}{
+
+		}
+		Rect(float w, float h, float X, float Y, Anchor centeredOn, GLfloat Red, GLfloat Green, GLfloat Blue) :
+			 width(w), height(h), PositionX(X), PositionY(Y), anchorPlace{centeredOn}, Color{Red, Green, Blue}{
 
 		}
 

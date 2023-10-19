@@ -47,6 +47,7 @@ private:
 	Rect rightLeg;
 	GLfloat legWidth {headSize/4};
 	GLfloat legSize {headSize/2};
+	GLfloat legColor[3] {1.0, 1.0, 1.0};
 
 	Rect Gun;
 
@@ -59,9 +60,16 @@ public:
 	Human(){
 		// Inicialize the Human and its parts
 		Head = Circle(headSize/2, PositionX, PositionY, headColor[RED], headColor[GREEN], headColor[BLUE]);
-		leftLeg = Rect(legWidth, legSize); // TODO : Define Position of Leg and its color
+		leftLeg = Rect(legWidth, legSize, (PositionX-headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
+		rightLeg = Rect(legWidth, legSize, (PositionX+headSize/4), PositionY, legColor[RED], legColor[GREEN], legColor[BLUE]);
 
 	}
+	Human(GLfloat PosX, GLfloat PosY, GLfloat Head_Size, GLfloat Red, GLfloat Green, GLfloat Blue) :
+			PositionX{PosX}, PositionY{PosY}, headSize{Head_Size}, headColor{Red, Green, Blue}
+	{
+		Human();
+	}
+
 	~Human();
 };
 
