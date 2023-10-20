@@ -26,51 +26,64 @@
  */
 #define ORIGIN_X	0
 #define ORIGIN_Y	0
-#define HEAD_SIZE	100		// Standard Diameter for the head
+#define HEAD_SIZE	100		// Default diameter for the head
 
-class Human
-{
-private:
-	/* Constants and Default Values */
-	enum Colors{
-		RED,
-		GREEN,
-		BLUE
-	};
+class Human{
+	private:
+		/* Constants and Default Values */
+		enum Colors{
+			RED,
+			GREEN,
+			BLUE
+		};
 
-	/* data */
-	Circle Head;
-	GLfloat headSize {HEAD_SIZE};
-	GLfloat headColor[3] {1.0, 1.0, 1.0};
+		/* data */
+		GLfloat PositionX {0};
+		GLfloat PositionY {0};
 
-	Rect leftLeg;
-	Rect rightLeg;
-	GLfloat legWidth {headSize/4};
-	GLfloat legSize {headSize/2};
-	GLfloat legColor[3] {1.0, 1.0, 1.0};
+		GLfloat headSize {HEAD_SIZE};	// Diameter of the Head
+		GLfloat headColor[3] {0.0, 1.0, 0.0};	// Color of the Head - Default green
 
-	Rect Gun;
 
-	GLfloat PositionX {0};
-	GLfloat PositionY {0};
+		GLfloat legWidth {headSize/4};
+		GLfloat legSize {headSize*(float)0.8};
+		GLfloat legColor[3] {0.0, 0.0, 0.0};	// Color of the Legs - Default black
 
-	GLfloat* TransformMatrix;
 
-public:
-	Human(){
+		GLfloat gunWidth {headSize/3};
+		GLfloat gunSize {headSize*(float)1.5};
+		GLfloat gunColor[3] {1.0, 0.0, 0.0};		// Color of the Gun - Defautl red
+
+
+		GLfloat* TransformMatrix;
+
+		Circle Head;
+		Rect leftLeg;
+		Rect rightLeg;
+		Rect Gun;
+
+		/* Private Methods */
+		void DrawHuman();
+
+	public:
 		// Inicialize the Human and its parts
-		Head = Circle(headSize/2, PositionX, PositionY, headColor[RED], headColor[GREEN], headColor[BLUE]);
-		leftLeg = Rect(legWidth, legSize, (PositionX-headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
-		rightLeg = Rect(legWidth, legSize, (PositionX+headSize/4), PositionY, legColor[RED], legColor[GREEN], legColor[BLUE]);
+		Human(GLfloat PosX, GLfloat PosY, GLfloat Head_Size, GLfloat Red, GLfloat Green, GLfloat Blue) :
+				PositionX{PosX}, PositionY{PosY}, headSize{Head_Size}, headColor{Red, Green, Blue}
+		{
+			this->Head = Circle(headSize/2, PositionX, PositionY, headColor[RED], headColor[GREEN], headColor[BLUE]);
 
-	}
-	Human(GLfloat PosX, GLfloat PosY, GLfloat Head_Size, GLfloat Red, GLfloat Green, GLfloat Blue) :
-			PositionX{PosX}, PositionY{PosY}, headSize{Head_Size}, headColor{Red, Green, Blue}
-	{
-		Human();
-	}
+			this->leftLeg = Rect(legWidth, legSize, (PositionX-headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
+			this->rightLeg = Rect(legWidth, legSize, (PositionX+headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
+			this->Gun = Rect(gunWidth, gunSize, (PositionX + headSize/2), (PositionY - headSize/4), Rect::left_b, gunColor[RED], gunColor[GREEN], gunColor[BLUE]);
+		}
 
-	~Human();
+		void Draw(){
+			DrawHuman();
+		}
+
+		~Human(){
+			// Deleting objects from the memory
+		}
 };
 
 #endif	/* HUMAN_H */

@@ -26,6 +26,7 @@
 // Local Libraries + Project Classes
 #include "Classes/rect.h"
 #include "Classes/circle.h"
+#include "Classes/human.h"
 
 
 /*
@@ -52,9 +53,15 @@ GLint winHeight = 700;
 GLint ViewingWidth = winWidth;
 GLint ViewingHeight = winHeight;
 
-// Circle to test drawing
-Circle c = Circle();
-Rect R = Rect();
+// human to draw
+GLfloat X0 = 0.0;
+GLfloat Y0 = 0.0;
+GLfloat headsize = 50;
+GLfloat red = 0.2;
+GLfloat green = 0.8;
+GLfloat blue = 0.2;
+
+Human h(X0, Y0, headsize, red, green, blue);
 
 
 /*
@@ -72,7 +79,7 @@ void init(void)
     ResetKeyStatus();
 
     // The color the windows will redraw. Its done to erase the previous frame.
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
+    glClearColor(0.3f, 0.3f, 0.8f, 1.0f); // Black, no opacity(alpha).
 
     glMatrixMode(GL_PROJECTION);	// Select the projection matrix
     glOrtho(-(ViewingWidth/2),		// X coordinate of left edge
@@ -105,8 +112,9 @@ void renderScene(){
 	// Clear the screen.
     glClear(GL_COLOR_BUFFER_BIT);
 
-	//R.Draw();
-	c.Draw();
+//	R.Draw();
+//	C.Draw();
+	h.Draw();
 
 	glutSwapBuffers(); // Draw the new frame of the game.
 }
@@ -206,7 +214,7 @@ int main (int argc, char** argv)
 
 void loadConfig(){
 	// TODO
-	c.setFillColor3f(0.8, 0.2, 0.2);
+	//c.setFillColor3f(0.8, 0.2, 0.2);
 }
 
 void ResetKeyStatus()

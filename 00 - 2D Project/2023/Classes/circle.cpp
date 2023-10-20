@@ -18,12 +18,7 @@
 #include <cmath>
 #include <stdio.h>
 
-/*
- * Constants
- */
-#define RED		0
-#define GREEN	1
-#define BLUE	2
+
 
 /*
  * Implementation of Functions

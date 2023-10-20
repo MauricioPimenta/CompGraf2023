@@ -34,6 +34,12 @@
  */
 class Circle
 {
+	enum Colors{
+			RED,
+			GREEN,
+			BLUE
+		};
+
 	// Class Atributes -- Private by default
     GLfloat radius {RADIUS};
 	GLfloat PositionX {ORIGIN_X};
@@ -53,29 +59,30 @@ class Circle
 	 */
 	public:
 		// Constructors of the Class
-		Circle()
-		{
-			this->defineVertices();
+		Circle(){
+			initCircle();
 		}
-
 		Circle(GLfloat r) : radius(r)
 		{
-			Circle();
+			initCircle();
 		}
 		Circle(GLfloat r, GLfloat PosX, GLfloat PosY) : radius{r}, PositionX{PosX}, PositionY{PosY}
 		{
-			Circle();
-		 }
-		Circle(float r, GLfloat Red, GLfloat Green, GLfloat Blue) : radius(r), Color{Red, Green, Blue}
+			initCircle();
+		}
+		Circle(GLfloat r, GLfloat Red, GLfloat Green, GLfloat Blue) : radius{r}, Color{Red, Green, Blue}
 		{
-			Circle();
+			initCircle();
 		}
 		Circle(GLfloat r, GLfloat PosX, GLfloat PosY, GLfloat Red, GLfloat Green, GLfloat Blue) :
 				radius{r}, PositionX{PosX}, PositionY{PosY}, Color{Red, Green, Blue}
 		{
-			Circle();
+			initCircle();
 		}
 
+		void initCircle(){
+			this->defineVertices();
+		}
 
 		/* Public Methods */
 		void Draw();

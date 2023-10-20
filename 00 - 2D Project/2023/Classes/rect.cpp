@@ -18,21 +18,14 @@
 
 
 /*
- * Constants
- */
-#define RED		0
-#define GREEN	1
-#define BLUE	2
-
-/*
  * Implementation of Functions
  */
 
 // DrawCentered
-void Rect::DrawCenteredOn(GLfloat height, GLfloat width, Anchor place, GLfloat* Color){
+void Rect::DrawCenteredOn(){
 
 	// Define vertices Color with RGB values between 0.0 and 1.0
-	glColor3f (Color[RED], Color[GREEN], Color[BLUE]);
+	glColor3f (this->Color[RED], this->Color[GREEN], this->Color[BLUE]);
 
 	// Desenha um quadrado com altura = height e largura = width
 	// com a origem no ponto definido como ancora do retangulo
@@ -45,88 +38,88 @@ void Rect::DrawCenteredOn(GLfloat height, GLfloat width, Anchor place, GLfloat* 
 	// 	   -w						+w
 	// x -> Origem do retangulo
 	//
-	switch (place)
+	switch (this->anchorPlace)
 	{
 		case center:
 			// (0,0) centered on the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (-width/2, -height/2, 0.0);
-				glVertex3f (width/2, -height/2, 0.0);
-				glVertex3f (width/2, height/2, 0.0);
-				glVertex3f (-width/2, height/2, 0.0);
+				glVertex3f (PositionX-width/2, PositionY-height/2, 0.0);
+				glVertex3f (PositionX+width/2, PositionY-height/2, 0.0);
+				glVertex3f (PositionX+width/2, PositionY+height/2, 0.0);
+				glVertex3f (PositionX-width/2, PositionY+height/2, 0.0);
 			glEnd();
 			break;
 
 		case center_b:
 			// (0,0) on the center point on the bottom on the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (-width/2, 0, 0.0);
-				glVertex3f (width/2, 0, 0.0);
-				glVertex3f (width/2, height, 0.0);
-				glVertex3f (-width/2, height, 0.0);
+				glVertex3f (PositionX - width/2, PositionY, 0.0);
+				glVertex3f (PositionX + width/2, PositionY, 0.0);
+				glVertex3f (PositionX + width/2, PositionY + height, 0.0);
+				glVertex3f (PositionX - width/2, PositionY + height, 0.0);
 			glEnd();
 			break;
 		case center_t:
 			// (0,0) on the center point on the top on the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (-width/2, 0, 0.0);
-				glVertex3f (width/2, 0, 0.0);
-				glVertex3f (width/2, -height, 0.0);
-				glVertex3f (-width/2, -height, 0.0);
+				glVertex3f (PositionX - width/2, PositionY, 0.0);
+				glVertex3f (PositionX + width/2, PositionY, 0.0);
+				glVertex3f (PositionX + width/2, PositionY - height, 0.0);
+				glVertex3f (PositionX - width/2, PositionY - height, 0.0);
 			glEnd();
 			break;
 		case left:
 			// (0,0) left-center of the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (0, -height/2, 0.0);
-				glVertex3f (width, -height/2, 0.0);
-				glVertex3f (width, height/2, 0.0);
-				glVertex3f (0, height/2, 0.0);
+				glVertex3f (PositionX, PositionY - height/2, 0.0);
+				glVertex3f (PositionX + width, PositionY - height/2, 0.0);
+				glVertex3f (PositionX + width, PositionX + height/2, 0.0);
+				glVertex3f (PositionX, PositionY + height/2, 0.0);
 			glEnd();
 			break;
 		case left_b:
 			// (0,0) - left and bottom of the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (0, 0, 0.0);
-				glVertex3f (width, 0, 0.0);
-				glVertex3f (width, height, 0.0);
-				glVertex3f (0, height, 0.0);
+				glVertex3f (PositionX, PositionY, 0.0);
+				glVertex3f (PositionX + width, PositionY, 0.0);
+				glVertex3f (PositionX + width, PositionY + height, 0.0);
+				glVertex3f (PositionX, PositionY + height, 0.0);
 			glEnd();
 			break;
 		case left_t:
 			// (0,0) left-top of the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (0, -height, 0.0);
-				glVertex3f (width, -height, 0.0);
-				glVertex3f (width, 0, 0.0);
-				glVertex3f (0, 0, 0.0);
+				glVertex3f (PositionX, PositionY - height, 0.0);
+				glVertex3f (PositionX + width, PositionY - height, 0.0);
+				glVertex3f (PositionX + width, PositionY, 0.0);
+				glVertex3f (PositionX, PositionY, 0.0);
 			glEnd();
 			break;
 		case right:
 			// (0,0) right-center of the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (-width, -height/2, 0.0);
-				glVertex3f (0, -height/2, 0.0);
-				glVertex3f (0, height/2, 0.0);
-				glVertex3f (-width, height/2, 0.0);
+				glVertex3f (PositionX - width, PositionY - height/2, 0.0);
+				glVertex3f (PositionX + 0, PositionY - height/2, 0.0);
+				glVertex3f (PositionX + 0, PositionY + height/2, 0.0);
+				glVertex3f (PositionX - width, PositionY + height/2, 0.0);
 			glEnd();
 			break;
 		case right_b:
 			// (0,0) - right and bottom of the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (0, 0, 0.0);
-				glVertex3f (-width, 0, 0.0);
-				glVertex3f (-width, height, 0.0);
-				glVertex3f (0, height, 0.0);
+				glVertex3f (PositionX + 0, PositionY, 0.0);
+				glVertex3f (PositionX - width, PositionY, 0.0);
+				glVertex3f (PositionX - width, PositionY + height, 0.0);
+				glVertex3f (PositionX, PositionY + height, 0.0);
 			glEnd();
 			break;
 		case right_t:
 			// (0,0) on right-top of the Rect
 			glBegin(GL_POLYGON);
-				glVertex3f (-width/2, 0, 0.0);
-				glVertex3f (width/2, 0, 0.0);
-				glVertex3f (width/2, -height, 0.0);
-				glVertex3f (-width/2, -height, 0.0);
+				glVertex3f (PositionX - width/2, PositionY, 0.0);
+				glVertex3f (PositionX + width/2, PositionY, 0.0);
+				glVertex3f (PositionX + width/2, PositionY - height, 0.0);
+				glVertex3f (PositionX - width/2, PositionY - height, 0.0);
 			glEnd();
 			break;
 

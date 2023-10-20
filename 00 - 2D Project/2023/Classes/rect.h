@@ -47,6 +47,13 @@ class Rect{
 		};
 
 	private:
+
+		enum Colors{
+			RED,
+			GREEN,
+			BLUE
+		};
+
 		// Class Atributes
 		GLfloat width {WIDTH};	// inside {} is the default values. same as width = WIDTH
 		GLfloat height {HEIGHT};
@@ -63,7 +70,7 @@ class Rect{
 
 
 		/* Private Methods */
-		void DrawCenteredOn(GLfloat height, GLfloat width, Anchor place, GLfloat* Color);
+		void DrawCenteredOn();
 
 	/*
 	 * Public Atributes and Methods of the Class
@@ -75,24 +82,24 @@ class Rect{
 		Rect(){
 
 		}
-		Rect(float w, float h) : width(w), height(h){
+		Rect(float w, float h) : width{w}, height{h}{
 
 		}
-		Rect(float w, float h, float X, float Y): width(w), height(h), PositionX(X), PositionY(Y){
+		Rect(float w, float h, float X, float Y): width{w}, height{h}, PositionX{X}, PositionY{Y}{
 
 		}
 		Rect(float w, float h, float X, float Y, GLfloat Red, GLfloat Green, GLfloat Blue) :
-			 width(w), height(h), PositionX(X), PositionY(Y), Color{Red, Green, Blue}{
+			 width{w}, height{h}, PositionX{X}, PositionY{Y}, Color{Red, Green, Blue}{
 
 		}
 		Rect(float w, float h, float X, float Y, Anchor centeredOn, GLfloat Red, GLfloat Green, GLfloat Blue) :
-			 width(w), height(h), PositionX(X), PositionY(Y), anchorPlace{centeredOn}, Color{Red, Green, Blue}{
+			 width{w}, height{h}, PositionX{X}, PositionY{Y}, anchorPlace{centeredOn}, Color{Red, Green, Blue}{
 
 		}
 
 		/* Public Methods */
 		void Draw(){
-			DrawCenteredOn(height, width, anchorPlace, Color);
+			DrawCenteredOn();
 		}
 
 		// Destructor of the Class
