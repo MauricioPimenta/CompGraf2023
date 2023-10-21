@@ -73,12 +73,109 @@ class Human{
 			this->Head = Circle(headSize/2, PositionX, PositionY, headColor[RED], headColor[GREEN], headColor[BLUE]);
 
 			this->leftLeg = Rect(legWidth, legSize, (PositionX-headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
-			this->rightLeg = Rect(legWidth, legSize, (PositionX+headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
+			this->rightLeg = Rect(legWidth, -legSize, (PositionX+headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
 			this->Gun = Rect(gunWidth, gunSize, (PositionX + headSize/2), (PositionY - headSize/4), Rect::left_b, gunColor[RED], gunColor[GREEN], gunColor[BLUE]);
 		}
 
 		void Draw(){
 			DrawHuman();
+		}
+
+		/*
+		 * Getters and Setters for the Class
+		 */
+		// Position
+		GLfloat getPositionX(){
+			return this->PositionX;
+		};
+		void setPositioX(GLfloat X){
+			this->PositionX = X;
+		};
+
+		GLfloat getPositionY(){
+			return this->PositionY;
+		}
+		void setPositionY(GLfloat Y){
+			this->PositionY = Y;
+		};
+
+		// Head
+		GLfloat getheadSize(){
+			return this->headSize;
+		}
+		void setheadSize(GLfloat sz){
+			this->headSize = sz;
+		}
+
+		// GLfloat* getheadColor(){
+		// 	GLfloat R = this->headColor[RED];
+		// 	GLfloat G = this->headColor[GREEN];
+		// 	GLfloat B = this->headColor[BLUE];
+
+		// 	GLfloat Color[3] = {R, G, B};
+		// 	return Color;
+		// }
+		void setheadColor(GLfloat R, GLfloat G, GLfloat B){
+			this->headColor[RED] = R;
+			this->headColor[GREEN] = G;
+			this->headColor[BLUE] = B;
+
+			// Calls the setter for the circle color
+		}
+
+		// Legs
+		GLfloat getlegWidth(){
+			return this->legWidth;
+		}
+		void setlegWidth(GLfloat w){
+			this->legWidth = w;
+		}
+
+		GLfloat getlegSize(){
+			return this->legSize;
+		}
+		void setlegSize(GLfloat sz){
+			this->legSize = sz;
+		}
+
+		// GLfloat* getlegColor(){
+		// 	GLfloat R = this->legColor[RED];
+		// 	GLfloat G = this->legColor[GREEN];
+		// 	GLfloat B = this->legColor[BLUE];
+
+		// 	GLfloat Color[3] = {R, G, B};
+		// 	return Color;
+		// }
+		void setlegColor(GLfloat R, GLfloat G, GLfloat B){
+			this->legColor[RED] = R;
+			this->legColor[GREEN] = G;
+			this->legColor[BLUE] = B;
+
+			// Calls the setter for the Rect color
+		}
+
+
+		// Gun
+		GLfloat getgunWidth(){
+			return this->gunWidth;
+		}
+		GLfloat getgunSize(){
+			return this->gunSize;
+		}
+
+
+		void setgunWidth(GLfloat w){
+			this->gunWidth = w;
+		}
+		void setgunSize(GLfloat sz){
+			this->gunSize = sz;
+		}
+		void setgunColor(GLfloat R, GLfloat G, GLfloat B){
+			this->legColor[RED] = R;
+			this->legColor[GREEN] = G;
+			this->legColor[BLUE] = B;
+
+			// Calls the setter for the Rect color
 		}
 
 		~Human(){

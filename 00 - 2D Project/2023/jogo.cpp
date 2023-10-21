@@ -49,19 +49,20 @@ int keyStatus[256];
 GLint winWidth = 500;
 GLint winHeight = 700;
 
-// Viewing dimensions
-GLint ViewingWidth = winWidth;
-GLint ViewingHeight = winHeight;
-
 // human to draw
 GLfloat X0 = 0.0;
-GLfloat Y0 = 0.0;
+GLfloat Y0 = -winHeight/4;
 GLfloat headsize = 50;
 GLfloat red = 0.2;
 GLfloat green = 0.8;
 GLfloat blue = 0.2;
 
 Human h(X0, Y0, headsize, red, green, blue);
+
+Rect arrowX(100, 2, 0, 0, Rect::left, 1.0, 0.1, 0.1);
+Rect arrowY(2, 100, 0, 0, Rect::center_b, 0.1, 1.0, 0.1);
+
+HLine playerLimit(winWidth, 0,0, 1.0,0.8,0.9, true, 20);
 
 
 /*
@@ -82,10 +83,10 @@ void init(void)
     glClearColor(0.3f, 0.3f, 0.8f, 1.0f); // Black, no opacity(alpha).
 
     glMatrixMode(GL_PROJECTION);	// Select the projection matrix
-    glOrtho(-(ViewingWidth/2),		// X coordinate of left edge
-            (ViewingWidth/2),		// X coordinate of right edge
-            -(ViewingHeight/2),		// Y coordinate of bottom edge
-            (ViewingHeight/2),		// Y coordinate of top edge
+    glOrtho(-(winWidth/2),		// X coordinate of left edge
+            (winWidth/2),		// X coordinate of right edge
+            -(winHeight/2),		// Y coordinate of bottom edge
+            (winHeight/2),		// Y coordinate of top edge
             -100,					// Z coordinate of the “near” plane
             100);					// Z coordinate of the “far” plane
     glMatrixMode(GL_MODELVIEW); // Select the model view matrix
@@ -112,9 +113,14 @@ void renderScene(){
 	// Clear the screen.
     glClear(GL_COLOR_BUFFER_BIT);
 
-//	R.Draw();
-//	C.Draw();
+	// Draw the objects for the scene
 	h.Draw();
+
+
+	// Draw the World Reference Arrows
+	arrowX.Draw();
+	arrowY.Draw();
+	playerLimit.Draw();
 
 	glutSwapBuffers(); // Draw the new frame of the game.
 }

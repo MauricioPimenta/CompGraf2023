@@ -27,19 +27,10 @@
 
 void Circle::Draw(){
 
-	if (this->Vertices2f == NULL)
-	{
-		printf("\nVertices not defined\n");
-		return;
-	}
-
-	//static int n_draw = 0;
-	//printf("\tDrawing circle: %d\n", ++n_draw);
-
 	// Define vertices Color with RGB values between 0.0 and 1.0
 	glColor3f (this->Color[RED], this->Color[GREEN], this->Color[BLUE]);
-	//glColor3f(1,1,1);
 
+	// Draw the Circle as a polygon using the defined vertices
 	glBegin(GL_POLYGON);
 
 		for (int i = 0; i <= 2*NUM_VERTICES-1; i+=2)

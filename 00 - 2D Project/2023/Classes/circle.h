@@ -34,23 +34,23 @@
  */
 class Circle
 {
-	enum Colors{
-			RED,
-			GREEN,
-			BLUE
-		};
-
-	// Class Atributes -- Private by default
-    GLfloat radius {RADIUS};
-	GLfloat PositionX {ORIGIN_X};
-	GLfloat PositionY {ORIGIN_Y};
-	GLfloat Color[3] {1.0, 1.0, 1.0};	// Colors of the Circle - Default is White
-	GLfloat Vertices2f[2*NUM_VERTICES];	// Vector to store the 2D coordinates of the vertices (X,Y)
-
 	/*
 	 * Private Atributes and Methods of the Class
 	 */
 	private:
+		enum Colors{
+				RED,
+				GREEN,
+				BLUE
+			};
+
+		// Class Atributes -- Private by default
+		GLfloat radius {RADIUS};
+		GLfloat PositionX {ORIGIN_X};
+		GLfloat PositionY {ORIGIN_Y};
+		GLfloat Color[3] {1.0, 1.0, 1.0};	// Colors of the Circle - Default is White
+		GLfloat Vertices2f[2*NUM_VERTICES];	// Vector to store the 2D coordinates of the vertices (X,Y)
+
 		/* Private Methods */
 		void defineVertices();
 
@@ -83,6 +83,41 @@ class Circle
 		void initCircle(){
 			this->defineVertices();
 		}
+
+		/*
+		 * Getters and Setters
+		 */
+
+		// Getters
+		// Class Atributes -- Private by default
+		GLfloat getRadius(){
+			return this->radius;
+		}
+		GLfloat getPositionX(){
+			return this->PositionX;
+		}
+		GLfloat getPositionY(){
+			return this->PositionY;
+		}
+
+		void setRadius(GLfloat r){
+			this->radius = r;
+		}
+		void setPositionX(GLfloat X){
+			this->PositionX = X;;
+		}
+		void setPositionY(GLfloat Y){
+			this->PositionY = Y;
+		}
+
+		void setColor(GLfloat R, GLfloat G, GLfloat B){
+			this->Color[RED] = R;
+			this->Color[GREEN] = G;
+			this->Color[BLUE] = B;
+
+		}
+
+
 
 		/* Public Methods */
 		void Draw();
