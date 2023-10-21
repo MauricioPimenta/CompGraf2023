@@ -174,19 +174,27 @@ private:
 	std::vector<Rect*> dottedLine;	// Vector to Store Rectangles
 
 public:
-	HLine(float size, float X1, float Y1, GLfloat Red, GLfloat Green, GLfloat Blue, bool isDotted = false, int nDots = 10)
+	HLine(float size, float X1, float Y1, GLfloat Red, GLfloat Green, GLfloat Blue, bool isDotted = false, int nDots = 40)
 		: Rect(size, this->linewidth, X1, Y1, Rect::left, Red, Green, Blue), dotted(isDotted), numDots(nDots)
 	{
 		if (isDotted)
 		{
-			// TODO - Make the List of Rectangles for the 'dots', based on numDots
+			if (numDots <= 0) {
+				// Invalid number of dots; set it to the default
+				numDots = 10;
+    		}
+
+			// Calculate dot and space widths based on the number of dots and the total width
+			dotWidth = size / (2.0f * numDots - 1);
+			spaceWidth = dotWidth;
+
 			// Calculate the width of a single dot based on available space
             if (numDots > 1){
                 // Subtract the space between dots
                 dotWidth = (size - spaceWidth * (numDots - 1)) / numDots;
             }
             // Create and store the 'dots' as Rectangles
-            for (int i = 0; i < numDots; ++i){
+            for (int i = 0; i < numDots; i++){
                 float dotX = X1 + i * (dotWidth + spaceWidth); // Calculate X position
                 Rect* dot = new Rect(dotWidth, this->linewidth, dotX, Y1, Rect::left, Red, Green, Blue);
                 dottedLine.push_back(dot); // Store the dot in the vector

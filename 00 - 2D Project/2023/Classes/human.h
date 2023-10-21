@@ -178,6 +178,18 @@ class Human{
 			// Calls the setter for the Rect color
 		}
 
+
+		/* Other Functions */
+		void moveY(GLfloat move){
+			this->PositionY += move;
+			
+		}
+
+
+
+
+
+
 		~Human(){
 			// Deleting objects from the memory
 		}

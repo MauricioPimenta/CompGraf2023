@@ -73,7 +73,7 @@ void Rect::DrawCenteredOn(){
 			glBegin(GL_POLYGON);
 				glVertex3f (PositionX, PositionY - height/2, 0.0);
 				glVertex3f (PositionX + width, PositionY - height/2, 0.0);
-				glVertex3f (PositionX + width, PositionX + height/2, 0.0);
+				glVertex3f (PositionX + width, PositionY + height/2, 0.0);
 				glVertex3f (PositionX, PositionY + height/2, 0.0);
 			glEnd();
 			break;

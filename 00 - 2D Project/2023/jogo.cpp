@@ -49,6 +49,14 @@ int keyStatus[256];
 GLint winWidth = 500;
 GLint winHeight = 700;
 
+GLint winLeft = -winWidth/2;
+GLint winRight = winWidth/2;
+GLint winBottom = -winHeight/2;
+GLint winTop = winHeight/2;
+GLint winCenterX = (winLeft + winRight)/2;
+GLint winCenterY = (winBottom + winTop)/2;
+
+
 // human to draw
 GLfloat X0 = 0.0;
 GLfloat Y0 = -winHeight/4;
@@ -62,7 +70,7 @@ Human h(X0, Y0, headsize, red, green, blue);
 Rect arrowX(100, 2, 0, 0, Rect::left, 1.0, 0.1, 0.1);
 Rect arrowY(2, 100, 0, 0, Rect::center_b, 0.1, 1.0, 0.1);
 
-HLine playerLimit(winWidth, 0,0, 1.0,0.8,0.9, true, 20);
+HLine playerLimit(winWidth, winLeft, winCenterY, 0.2,0.2,0.2, true, 40);
 
 
 /*
@@ -83,13 +91,14 @@ void init(void)
     glClearColor(0.3f, 0.3f, 0.8f, 1.0f); // Black, no opacity(alpha).
 
     glMatrixMode(GL_PROJECTION);	// Select the projection matrix
-    glOrtho(-(winWidth/2),		// X coordinate of left edge
-            (winWidth/2),		// X coordinate of right edge
-            -(winHeight/2),		// Y coordinate of bottom edge
-            (winHeight/2),		// Y coordinate of top edge
+    glOrtho(winLeft,		// X coordinate of left edge
+            winRight,		// X coordinate of right edge
+            winBottom,		// Y coordinate of bottom edge
+            winTop,		// Y coordinate of top edge
             -100,					// Z coordinate of the “near” plane
             100);					// Z coordinate of the “far” plane
-    glMatrixMode(GL_MODELVIEW); // Select the model view matrix
+
+	glMatrixMode(GL_MODELVIEW); // Select the model view matrix
     glLoadIdentity();
 
 }
@@ -97,6 +106,7 @@ void init(void)
 
 void keyPress(unsigned char key, int x, int y){
 	// TODO
+	keyStatus[static_cast<int> (key)];
 }
 
 
@@ -177,6 +187,15 @@ void idle(void){
 
 		glutPostRedisplay();	// Redraw
 	}
+
+
+	// Key Behaviour
+	if (keyStatus[static_cast<int>('w')] || keyStatus[static_cast<int>('W')])
+	{
+		// Move the player Upwards
+		h.moveUP();
+	}
+	
 
 }
 
