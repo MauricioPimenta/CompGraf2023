@@ -105,7 +105,7 @@ void DrawAxes(double size)
     glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
     glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
 
-    //x axis
+    // X axis
     glPushMatrix();
         glMaterialfv(GL_FRONT, GL_EMISSION, mat_ambient_r);
         glColor3fv(mat_ambient_r);
@@ -114,7 +114,7 @@ void DrawAxes(double size)
         glutSolidCube(1.0);
     glPopMatrix();
 
-    //y axis
+    // Y axis
     glPushMatrix();
         glMaterialfv(GL_FRONT, GL_EMISSION, mat_ambient_g);
         glColor3fv(mat_ambient_g);
@@ -124,7 +124,7 @@ void DrawAxes(double size)
         glutSolidCube(1.0);
     glPopMatrix();
 
-    //z axis
+    // Z axis
     glPushMatrix();
         glMaterialfv(GL_FRONT, GL_EMISSION, mat_ambient_b);
         glColor3fv(mat_ambient_b);
@@ -224,7 +224,7 @@ void display(void)
 
     desenhaJogador();
 
-    //Define e desenha a fonte de luz
+    // Define e desenha a fonte de luz
     GLfloat light_position[] = {10, 10, 50, 1};
     glLightfv(GL_LIGHT0,GL_POSITION,light_position);
     glDisable(GL_LIGHTING);
