@@ -212,7 +212,7 @@ void display(void)
                     0, 0, 0,
                     0, 1, 0);
     } else{
-        // Limpa a cor com azulado
+        // Limpa a cor com avermelhado
         glClearColor (1.0, 0.30, 0.30, 0.0);
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         MygluLookAt(  zoom*sin(camXZAngle*M_PI/180)*cos((camXYAngle*M_PI/180)),
