@@ -136,7 +136,7 @@ void DrawAxes(double size)
 
 }
 
-//ALTERE AQUI - SEU CODIGO AQUI
+// ALTERE AQUI - SEU CODIGO AQUI
 // Usar meshlab para obter os pontos abaixo
 int pontoArmaAponta = 0;
 int pontoPosicaoArma = 0;
