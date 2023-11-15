@@ -3,7 +3,7 @@
 #include <GL/glut.h>
 #include <stdlib.h>
 
-void init(int windowSize) 
+void init(int windowSize)
 {
     glClearColor (0.0, 0.0, 0.0, 0.0);
     glShadeModel (GL_FLAT);
@@ -12,15 +12,15 @@ void init(int windowSize)
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
-    glViewport (0, 0, (GLsizei) windowSize, 
+    glViewport (0, 0, (GLsizei) windowSize,
             (GLsizei) windowSize);
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective (50, 
-            (GLfloat)windowSize/(GLfloat)windowSize, 
+    gluPerspective (50,
+            (GLfloat)windowSize/(GLfloat)windowSize,
                     1, 15);
 //    glOrtho (-3, 3, -3*(GLfloat)windowSize/(GLfloat)windowSize,
-//       3*(GLfloat)windowSize/(GLfloat)windowSize, 1.0, 15.0);   
+//       3*(GLfloat)windowSize/(GLfloat)windowSize, 1.0, 15.0);
 }
 void DrawAxes(double size)
 {
@@ -28,14 +28,14 @@ void DrawAxes(double size)
     GLfloat mat_ambient_g[] = { 0.0, 1.0, 0.0, 1.0 };
     GLfloat mat_ambient_b[] = { 0.0, 0.0, 1.0, 1.0 };
     GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, 
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE,
             no_mat);
     glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
     glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
 
     //x axis red
     glPushMatrix();
-        glMaterialfv(GL_FRONT, GL_EMISSION, 
+        glMaterialfv(GL_FRONT, GL_EMISSION,
                 mat_ambient_r);
         glColor3fv(mat_ambient_r);
         glScalef(size, size*0.1, size*0.1);
@@ -45,7 +45,7 @@ void DrawAxes(double size)
 
     //y axis green
     glPushMatrix();
-        glMaterialfv(GL_FRONT, GL_EMISSION, 
+        glMaterialfv(GL_FRONT, GL_EMISSION,
                 mat_ambient_g);
         glColor3fv(mat_ambient_g);
         glRotatef(90,0,0,1);
@@ -62,7 +62,7 @@ void DrawAxes(double size)
         glScalef(size, size*0.1, size*0.1);
         glTranslatef(0.5, 0, 0); // put in one end
         glutSolidCube(1.0);
-    glPopMatrix();    
+    glPopMatrix();
 }
 
 void DrawObj(double size)
@@ -83,35 +83,38 @@ void DrawObj(double size)
 
 void display(void)
 {
-    glClear (   GL_COLOR_BUFFER_BIT | 
+    glClear (   GL_COLOR_BUFFER_BIT |
                 GL_DEPTH_BUFFER_BIT);
-   
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0,2,5, 0,0,0, 0,1,0);
-   
+
     GLfloat light_position[] = { 0.0, 3.0, 10.0, 1.0 };
     glLightfv(  GL_LIGHT0, GL_POSITION, light_position);
 
     DrawAxes(1.5);
 
     DrawObj(1.0);
-    
+
     glutSwapBuffers();
 }
 
 int main(int argc, char** argv)
 {
-   int windowSize = 500; 
+   int windowSize = 500;
+   
    glutInit(&argc, argv);
-   glutInitDisplayMode (GLUT_DOUBLE | 
-                        GLUT_RGB | 
+   glutInitDisplayMode (GLUT_DOUBLE |
+                        GLUT_RGB |
                         GLUT_DEPTH);
-   glutInitWindowSize (windowSize, windowSize); 
+   glutInitWindowSize (windowSize, windowSize);
    glutInitWindowPosition (100, 100);
    glutCreateWindow (argv[0]);
+   
    init(windowSize);
-   glutDisplayFunc(display); 
+
+   glutDisplayFunc(display);
    glutMainLoop();
    return 0;
 }
