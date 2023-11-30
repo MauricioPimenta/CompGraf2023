@@ -106,13 +106,13 @@ void init(void)
 
 void keyPress(unsigned char key, int x, int y){
 	// TODO
-	keyStatus[static_cast<int> (key)];
+	keyStatus[static_cast<int> (key)] = GLUT_DOWN;
 }
 
 
 void keyup(unsigned char key, int x, int y)
 {
-    keyStatus[(int)(key)] = 0;
+    keyStatus[static_cast<int>(key)] = GLUT_UP;
     glutPostRedisplay();
 }
 
@@ -190,12 +190,13 @@ void idle(void){
 
 
 	// Key Behaviour
-	if (keyStatus[static_cast<int>('w')] || keyStatus[static_cast<int>('W')])
+	if (keyStatus[static_cast<int>('w')] == GLUT_DOWN || keyStatus[static_cast<int>('W')] == GLUT_DOWN)
 	{
 		// Move the player Upwards
-		h.moveUP();
+		h.moveY(1.0);
+		glutPostRedisplay();
 	}
-	
+
 
 }
 
@@ -247,5 +248,5 @@ void ResetKeyStatus()
     int i;
     //Initialize keyStatus
     for(i = 0; i < 256; i++)
-       keyStatus[i] = 0;
+       keyStatus[i] = GLUT_UP;
 }

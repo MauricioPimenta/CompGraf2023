@@ -37,7 +37,11 @@ class Human{
 			BLUE
 		};
 
-		/* data */
+		/*
+		 * Class Atributes and Data
+		 */
+
+		// Define all the atributes for drawing the Human Object
 		GLfloat PositionX {0};
 		GLfloat PositionY {0};
 
@@ -61,6 +65,9 @@ class Human{
 		Rect leftLeg;
 		Rect rightLeg;
 		Rect Gun;
+
+		// Human atributes for the game - speed, etc..
+		GLfloat speed {1};
 
 		/* Private Methods */
 		void DrawHuman();
@@ -181,8 +188,18 @@ class Human{
 
 		/* Other Functions */
 		void moveY(GLfloat move){
-			this->PositionY += move;
-			
+
+			glPushMatrix();
+			glLoadIdentity();
+
+			glTranslatef(0,move*this->speed,0);
+			this->Draw();
+
+			glPopMatrix();
+
+			//this->PositionY += move*this->speed;
+			printf("\n\nYPos = %f\n\n\n", this->PositionY);
+
 		}
 
 

@@ -161,6 +161,9 @@ class Rect{
 		// Destructor of the Class
 };
 
+/*
+ * Class to draw lines using rectangles.
+ */
 class HLine : public Rect {
 private:
 	/* data */
