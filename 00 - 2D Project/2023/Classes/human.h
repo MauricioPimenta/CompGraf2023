@@ -18,6 +18,7 @@
 #include "rect.h"
 
 #include <stdio.h>
+#include <array>
 #include <GL/gl.h>
 #include <GL/glu.h>
 
@@ -59,7 +60,7 @@ class Human{
 		GLfloat gunColor[3] {1.0, 0.0, 0.0};		// Color of the Gun - Defautl red
 
 
-		GLfloat* TransformMatrix;
+		std::vector<GLfloat *> TransformMatrix;
 
 		Circle Head;
 		Rect leftLeg;
@@ -85,7 +86,21 @@ class Human{
 		}
 
 		void Draw(){
+			// Save the current matrix
+			glPushMatrix();
+
+			if (this->TransformMatrix.empty()){
+				glLoadIdentity();
+			}
+			else{
+				glLoadMatrixf(this->TransformMatrix[0]);	// Load the transform matrix
+			}
+
+			// Draw the Human
 			DrawHuman();
+
+			// Restore the previous matrix
+			glPopMatrix();
 		}
 
 		/*
@@ -187,19 +202,28 @@ class Human{
 
 
 		/* Other Functions */
+		#include <GL/gl.h> // Include the appropriate header file
+
 		void moveY(GLfloat move){
-
 			glPushMatrix();
-			glLoadIdentity();
 
+			if (this->TransformMatrix.empty() == true){
+				glLoadIdentity();
+			}
+			else{
+				glLoadMatrixf(this->TransformMatrix[0]);	// Load the transform matrix
+			}
+
+			// Multiply the Matrix on the stack by the Translate Matrix
 			glTranslatef(0,move*this->speed,0);
-			this->Draw();
+
+			// Get the resulting matrix after the multiplication
+			glGetFloatv(GL_MODELVIEW_MATRIX, this->TransformMatrix[0]);
 
 			glPopMatrix();
 
 			//this->PositionY += move*this->speed;
 			printf("\n\nYPos = %f\n\n\n", this->PositionY);
-
 		}
 
 

@@ -1,8 +1,8 @@
 /**************************************************************************************
- * jogo.cpp - Codigo principal do jogo 2D
+ * jogo.cpp - Codigo principal do jogo 3D
  *
  *
- * Implements a 2D game using OpenGL, GLU and GLUT (freeglut)
+ * Implements a 3D game using OpenGL, GLU and GLUT (freeglut)
  * Developed for UFES's Computer Graphics class - INF16014
  * Prof: Thiago Oliveira dos Santos
  *
