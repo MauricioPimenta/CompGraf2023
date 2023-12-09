@@ -60,7 +60,7 @@ class Human{
 		GLfloat gunColor[3] {1.0, 0.0, 0.0};		// Color of the Gun - Defautl red
 
 
-		std::vector<GLfloat *> TransformMatrix;
+		GLfloat* TransformMatrix;
 
 		Circle Head;
 		Rect leftLeg;
@@ -73,8 +73,23 @@ class Human{
 		/* Private Methods */
 		void DrawHuman();
 
+		void printTransformMatrix(){
+			printf("\n\nTransformMatrix = ");
+			printf("\n[ ");
+			for(int i = 0; i < 16; i++){
+				if (i == 4 || i == 8 || i == 12)
+					printf("\n[ ");
+				
+				printf(" %f, ", this->TransformMatrix[i]);
+				
+				if (i == 3 || i == 7 || i == 11)
+					printf(" ], ");
+			}
+			printf(" ]\n\n");
+		}
+
 	public:
-		// Inicialize the Human and its parts
+		// Initialize the Human and its parts
 		Human(GLfloat PosX, GLfloat PosY, GLfloat Head_Size, GLfloat Red, GLfloat Green, GLfloat Blue) :
 				PositionX{PosX}, PositionY{PosY}, headSize{Head_Size}, headColor{Red, Green, Blue}
 		{
@@ -83,19 +98,19 @@ class Human{
 			this->leftLeg = Rect(legWidth, legSize, (PositionX-headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
 			this->rightLeg = Rect(legWidth, -legSize, (PositionX+headSize/4), PositionY, Rect::center_b, legColor[RED], legColor[GREEN], legColor[BLUE]);
 			this->Gun = Rect(gunWidth, gunSize, (PositionX + headSize/2), (PositionY - headSize/4), Rect::left_b, gunColor[RED], gunColor[GREEN], gunColor[BLUE]);
+
+			// Allocate memory for the Transform Matrix and set it to the Identity Matrix
+			this->TransformMatrix = new GLfloat[16]; printTransformMatrix();
+
+			//...
 		}
 
 		void Draw(){
 			// Save the current matrix
 			glPushMatrix();
 
-			if (this->TransformMatrix.empty()){
-				glLoadIdentity();
-			}
-			else{
-				glLoadMatrixf(this->TransformMatrix[0]);	// Load the transform matrix
-			}
-
+			glLoadIdentity();
+			glLoadMatrixf(this->TransformMatrix);	// Load the transform matrix
 			// Draw the Human
 			DrawHuman();
 
@@ -205,20 +220,16 @@ class Human{
 		#include <GL/gl.h> // Include the appropriate header file
 
 		void moveY(GLfloat move){
+			// save the current matrix
 			glPushMatrix();
-
-			if (this->TransformMatrix.empty() == true){
-				glLoadIdentity();
-			}
-			else{
-				glLoadMatrixf(this->TransformMatrix[0]);	// Load the transform matrix
-			}
+			// Load the transform matrix
+			glLoadMatrixf(this->TransformMatrix);
 
 			// Multiply the Matrix on the stack by the Translate Matrix
 			glTranslatef(0,move*this->speed,0);
 
 			// Get the resulting matrix after the multiplication
-			glGetFloatv(GL_MODELVIEW_MATRIX, this->TransformMatrix[0]);
+			glGetFloatv(GL_MODELVIEW_MATRIX, this->TransformMatrix);
 
 			glPopMatrix();
 
@@ -233,6 +244,7 @@ class Human{
 
 		~Human(){
 			// Deleting objects from the memory
+			delete this->TransformMatrix;
 		}
 };
 

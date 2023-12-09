@@ -85,7 +85,8 @@ void ResetKeyStatus();
 
 void init(void)
 {
-    ResetKeyStatus();
+    // Initialize atributes and variables that depend on OpenGL
+	ResetKeyStatus();
 
     // The color the windows will redraw. Its done to erase the previous frame.
     glClearColor(0.3f, 0.3f, 0.8f, 1.0f); // Black, no opacity(alpha).
@@ -124,7 +125,8 @@ void renderScene(){
     glClear(GL_COLOR_BUFFER_BIT);
 
 	// Draw the objects for the scene
-	h.Draw();
+	if (keyStatus[static_cast<int>('d')] == GLUT_DOWN || keyStatus[static_cast<int>('D')] == GLUT_DOWN)
+		h.Draw();
 
 
 	// Draw the World Reference Arrows
