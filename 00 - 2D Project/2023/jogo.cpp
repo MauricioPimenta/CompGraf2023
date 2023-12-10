@@ -57,8 +57,19 @@ GLint winCenterX = (winLeft + winRight)/2;
 GLint winCenterY = (winBottom + winTop)/2;
 
 
+// Program Vars
+bool animate = true;
+enum Camera{
+	CAM1,
+	CAM2,
+	CAM3
+};
+
+// Game Setting
+Camera camera = CAM1;
+
 // human to draw
-GLfloat X0 = 0.0;
+GLfloat X0 = winCenterX;
 GLfloat Y0 = -winHeight/4;
 GLfloat headsize = 50;
 GLfloat red = 0.2;
@@ -71,6 +82,8 @@ Rect arrowX(100, 2, 0, 0, Rect::left, 1.0, 0.1, 0.1);
 Rect arrowY(2, 100, 0, 0, Rect::center_b, 0.1, 1.0, 0.1);
 
 HLine playerLimit(winWidth, winLeft, winCenterY, 0.2,0.2,0.2, true, 40);
+
+
 
 
 /*
@@ -102,6 +115,12 @@ void init(void)
 	glMatrixMode(GL_MODELVIEW); // Select the model view matrix
     glLoadIdentity();
 
+	GLfloat* modelMatrix = new GLfloat[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelMatrix);
+
+	h.setTransformMatrix(modelMatrix);
+	delete modelMatrix;
+
 }
 
 
@@ -125,8 +144,7 @@ void renderScene(){
     glClear(GL_COLOR_BUFFER_BIT);
 
 	// Draw the objects for the scene
-	if (keyStatus[static_cast<int>('d')] == GLUT_DOWN || keyStatus[static_cast<int>('D')] == GLUT_DOWN)
-		h.Draw();
+	h.Draw();
 
 
 	// Draw the World Reference Arrows
@@ -141,64 +159,131 @@ void renderScene(){
 void idle(void){
 	// TODO
 	// A static variable to keep the value after leaving the function call
-	static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);	// in miliseconds
+		static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);	// in miliseconds
+		int fps = 120;	// Frames per second
+		static GLdouble RenderInterval = 1000*(1/fps); // time to render based on 120fps - in miliseconds
+		static GLdouble RenderTime = 0;
 
-	static GLdouble RenderInterval = 1000*(1/60); // time to render based on 60fps - in miliseconds
-	static GLdouble RenderTime = 0;
+		// Pega o tempo que passou do inicio da aplicacao
+		GLdouble currentTime = glutGet(GLUT_ELAPSED_TIME);	// in miliseconds
 
-	// Pega o tempo que passou do inicio da aplicacao
-	GLdouble currentTime = glutGet(GLUT_ELAPSED_TIME);	// in miliseconds
+		// Calcula o tempo decorrido desde a ultima frame.
+		GLdouble timeDiference = currentTime - previousTime;	// in ms
+		RenderTime += timeDiference;
+		// Atualiza o tempo do ultimo frame ocorrido
+		previousTime = currentTime;
 
-	// Calcula o tempo decorrido desde a ultima frame.
-	GLdouble timeDiference = currentTime - previousTime;	// in ms
-	RenderTime += timeDiference;
-	// Atualiza o tempo do ultimo frame ocorrido
-	previousTime = currentTime;
-
-	if (RenderTime >= RenderInterval)
-	{
-		// Redraw Everything and reset RenderTime
-		RenderTime = 0;
-		glutPostRedisplay();
-	}
+		if (RenderTime >= RenderInterval)
+		{
+			// Redraw Everything and reset RenderTime
+			RenderTime = 0;
+			glutPostRedisplay();
+		}
 
 	// Check resizing of the window
-	GLint width = glutGet(GLUT_WINDOW_WIDTH);
-	GLint height = glutGet(GLUT_WINDOW_HEIGHT);
+		GLint width = glutGet(GLUT_WINDOW_WIDTH);
+		GLint height = glutGet(GLUT_WINDOW_HEIGHT);
 
-	if (width !=  winWidth || height != winHeight)
-	{
-		glPushMatrix();	// Saves the Matrix Stack
+		if (width !=  winWidth || height != winHeight)
+		{
+			glPushMatrix();	// Saves the Matrix Stack
 
-		// The color the windows will redraw. Its done to erase the previous frame.
-		//glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
+			// The color the windows will redraw. Its done to erase the previous frame.
+			//glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
 
-		glMatrixMode(GL_PROJECTION);	// Select the projection matrix
-		// Reset the Projection Matrix
-		glLoadIdentity();
-		// And multiply the Projection Matrix by the new Ortho
-		glOrtho(-(width/2),		// X coordinate of left edge
-				(width/2),		// X coordinate of right edge
-				-(height/2),		// Y coordinate of bottom edge
-				(height/2),		// Y coordinate of top edge
-				-100,					// Z coordinate of the “near” plane
-				100);					// Z coordinate of the “far” plane
-		glMatrixMode(GL_MODELVIEW); // Select the projection matrix
+			glMatrixMode(GL_PROJECTION);	// Select the projection matrix
+			// Reset the Projection Matrix
+			glLoadIdentity();
+			// And multiply the Projection Matrix by the new Ortho
+			glOrtho(-(width/2),		// X coordinate of left edge
+					(width/2),		// X coordinate of right edge
+					-(height/2),		// Y coordinate of bottom edge
+					(height/2),		// Y coordinate of top edge
+					-100,					// Z coordinate of the “near” plane
+					100);					// Z coordinate of the “far” plane
+			glMatrixMode(GL_MODELVIEW); // Select the projection matrix
 
-		glPopMatrix();	// Load the Matrix Stack
+			glPopMatrix();	// Load the Matrix Stack
 
-		glutPostRedisplay();	// Redraw
-	}
+			glutPostRedisplay();	// Redraw
+		}
 
 
-	// Key Behaviour
-	if (keyStatus[static_cast<int>('w')] == GLUT_DOWN || keyStatus[static_cast<int>('W')] == GLUT_DOWN)
-	{
-		// Move the player Upwards
-		h.moveY(1.0);
-		glutPostRedisplay();
-	}
+	/*
+	* Key Behaviour - Movement
+	*/
 
+		// Up and Down Movement
+		// UP - w
+		if (keyStatus[static_cast<int>('w')] == GLUT_DOWN || keyStatus[static_cast<int>('W')] == GLUT_DOWN)
+		{
+			// Move the player upwards only if it is below the center of the screen
+			if (h.getPositionY() <= winCenterY){
+				h.moveXYZf(0, 1.0, 0);
+			}
+			// only allow for one key pressed each time - this prevent locking the movement when
+			// the player press the keys with 'shift' pressed and then releases the 'shift' key
+			// FIX: this is not working properly quando the CAPSLOCK is on because of the 'if' order below.
+			if (keyStatus[static_cast<int>('w')] == GLUT_DOWN){
+				keyStatus[static_cast<int>('W')] = GLUT_UP;
+			}
+			if (keyStatus[static_cast<int>('W')] == GLUT_DOWN){
+				keyStatus[static_cast<int>('w')] = GLUT_UP;
+			}
+
+			//glutPostRedisplay();
+		}
+		// DOWN - s
+		else if (keyStatus[static_cast<int>('s')] == GLUT_DOWN || keyStatus[static_cast<int>('S')] == GLUT_DOWN)
+		{
+			// Move the player downwards (-y) when not on the bottom of the screen
+			if (h.getPositionY() >= (winBottom + h.getheadSize())){
+				h.moveXYZf(0, -1.0, 0);
+			}
+
+			if (keyStatus[static_cast<int>('s')] == GLUT_DOWN){
+				keyStatus[static_cast<int>('S')] = GLUT_UP;
+			}
+			if (keyStatus[static_cast<int>('S')] == GLUT_DOWN){
+				keyStatus[static_cast<int>('s')] = GLUT_UP;
+			}
+
+			//glutPostRedisplay();
+		}
+
+		// Left and Right Movement
+		// LEFT - a
+		if (keyStatus[static_cast<int>('a')] == GLUT_DOWN || keyStatus[static_cast<int>('A')] == GLUT_DOWN)
+		{
+			// Move the player to the left (-x) if not on the left limit of the screen
+			if (h.getPositionX() >= (winLeft+h.getheadSize()))
+				h.moveXYZf(-1.0, 0, 0);
+
+
+			if (keyStatus[static_cast<int>('a')] == GLUT_DOWN)
+				keyStatus[static_cast<int>('A')] = GLUT_UP;
+
+			if (keyStatus[static_cast<int>('A')] == GLUT_DOWN)
+				keyStatus[static_cast<int>('a')] = GLUT_UP;
+
+			//glutPostRedisplay();
+		}
+		// RIGHT - d
+		else if (keyStatus[static_cast<int>('d')] == GLUT_DOWN || keyStatus[static_cast<int>('D')] == GLUT_DOWN)
+		{
+			// Move the player to the right (+x) if not on the right limit of the screen
+			if (h.getPositionX() <= (winRight - h.getheadSize()))
+				h.moveXYZf(+1.0, 0, 0);
+
+			if (keyStatus[static_cast<int>('d')] == GLUT_DOWN)
+				keyStatus[static_cast<int>('D')] = GLUT_UP;
+
+			if (keyStatus[static_cast<int>('D')] == GLUT_DOWN)
+				keyStatus[static_cast<int>('d')] = GLUT_UP;
+
+
+			//glutPostRedisplay();
+		}
 
 }
 

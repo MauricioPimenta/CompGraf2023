@@ -68,7 +68,7 @@ class Human{
 		Rect Gun;
 
 		// Human atributes for the game - speed, etc..
-		GLfloat speed {1};
+		GLfloat speed {5};
 
 		/* Private Methods */
 		void DrawHuman();
@@ -79,9 +79,9 @@ class Human{
 			for(int i = 0; i < 16; i++){
 				if (i == 4 || i == 8 || i == 12)
 					printf("\n[ ");
-				
+
 				printf(" %f, ", this->TransformMatrix[i]);
-				
+
 				if (i == 3 || i == 7 || i == 11)
 					printf(" ], ");
 			}
@@ -100,7 +100,7 @@ class Human{
 			this->Gun = Rect(gunWidth, gunSize, (PositionX + headSize/2), (PositionY - headSize/4), Rect::left_b, gunColor[RED], gunColor[GREEN], gunColor[BLUE]);
 
 			// Allocate memory for the Transform Matrix and set it to the Identity Matrix
-			this->TransformMatrix = new GLfloat[16]; printTransformMatrix();
+			this->TransformMatrix = new GLfloat[16];
 
 			//...
 		}
@@ -191,7 +191,6 @@ class Human{
 			// Calls the setter for the Rect color
 		}
 
-
 		// Gun
 		GLfloat getgunWidth(){
 			return this->gunWidth;
@@ -199,7 +198,6 @@ class Human{
 		GLfloat getgunSize(){
 			return this->gunSize;
 		}
-
 
 		void setgunWidth(GLfloat w){
 			this->gunWidth = w;
@@ -215,32 +213,46 @@ class Human{
 			// Calls the setter for the Rect color
 		}
 
+		void setTransformMatrix(GLfloat* Matrix){
+			for(int i = 0; i < 16; i++){
+				this->TransformMatrix[i] = Matrix[i];
+			}
+		}
+
+		/**
+		 * @brief Retrieves a copy of the transform matrix for the human.
+		 *
+		 * @return A pointer to the first element of the copy of the transform matrix.
+		 */
+		GLfloat* getTransformMatrix(){
+			GLfloat* MatrixCopy = new GLfloat[16];
+			for(int i = 0; i < 16; i++){
+				MatrixCopy[i] = this->TransformMatrix[i];
+			}
+			return MatrixCopy;
+		}
 
 		/* Other Functions */
-		#include <GL/gl.h> // Include the appropriate header file
 
-		void moveY(GLfloat move){
+		void moveXYZf(GLfloat moveX, GLfloat moveY, GLfloat moveZ){
 			// save the current matrix
 			glPushMatrix();
 			// Load the transform matrix
 			glLoadMatrixf(this->TransformMatrix);
 
 			// Multiply the Matrix on the stack by the Translate Matrix
-			glTranslatef(0,move*this->speed,0);
+			glTranslatef(moveX*this->speed, moveY*this->speed, moveZ*this->speed);
 
 			// Get the resulting matrix after the multiplication
 			glGetFloatv(GL_MODELVIEW_MATRIX, this->TransformMatrix);
+			
+			// Record the change of position for the human
+			this->PositionX += moveX*this->speed;
+			this->PositionY += moveY*this->speed;
 
+			// Restore the previous matrix
 			glPopMatrix();
-
-			//this->PositionY += move*this->speed;
-			printf("\n\nYPos = %f\n\n\n", this->PositionY);
 		}
-
-
-
-
-
 
 		~Human(){
 			// Deleting objects from the memory

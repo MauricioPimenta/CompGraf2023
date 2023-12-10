@@ -86,50 +86,6 @@ void DrawObj(double size)
 	glutSolidCube(size);
 	//glutSolidSphere(size, 20, 10);
 
-	static float incR = 0.1;
-	static float incG = 0.05;
-	static float incB = 0.01;
-
-	materialColor[0] += incR;
-	materialColor[1] += incG;
-	materialColor[2] += incB;
-
-	// // Color Dynamics
-	// if (materialColor[0] >= 0.4)
-	// {
-	// 	incR = +0.05;
-	// 	incG = +0.2;
-	// 	incB = +0.1;
-	// }
-
-	/* Lets not allow colors to go out of bounds */
-	// Red Channel
-	if (materialColor[0] >= 0.98){
-		incR = -0.1;
-	}
-	if (materialColor[0] <= 0.05)
-	{
-		incR = + 0.1;
-	}
-
-	// Green Channel
-	if (materialColor[1] >= 0.98)
-	{
-		incG = -0.1;
-	}
-	if (materialColor[1] <= 0.05){
-		incG = +0.1;
-	}
-
-	// Blue Channel
-	if (materialColor[2] >= 0.98)
-	{
-		incB = -0.1;
-	}
-	if (materialColor[2] <= 0.05){
-		incB = +0.1;
-	}
-
 }
 
 
