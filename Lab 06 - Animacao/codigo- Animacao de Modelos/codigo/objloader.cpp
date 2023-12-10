@@ -62,7 +62,7 @@ void meshes::draw(int movID, int frameId){
 //Le a textura
 bool meshes::loadTexture(string path){
     FILE* file= fopen(path.data(), "r");
-    
+
     Image* image = loadBMP(path.c_str());
     this->texWidth = image->width;
     this->texHeight = image->height;
@@ -83,6 +83,8 @@ bool meshes::loadTexture(string path){
                                                //as unsigned numbers
                              image->pixels);               //The actual pixel data
     delete image;
+
+	return true;
 }
 
 //função para carregar o OBJ

@@ -245,7 +245,7 @@ class Human{
 
 			// Get the resulting matrix after the multiplication
 			glGetFloatv(GL_MODELVIEW_MATRIX, this->TransformMatrix);
-			
+
 			// Record the change of position for the human
 			this->PositionX += moveX*this->speed;
 			this->PositionY += moveY*this->speed;
