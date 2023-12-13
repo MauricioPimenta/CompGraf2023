@@ -11,12 +11,12 @@ typedef struct
     double X;
     double Y;
     double Z;
-    
-    //Vertex normal 
+
+    //Vertex normal
     double nX;
     double nY;
     double nZ;
-    
+
     //Vertex texture coordinate
     double U;
     double V;
@@ -79,7 +79,7 @@ void PrintText(GLfloat x, GLfloat y, const char * text, double r, double g, doub
     glPushMatrix();
         glLoadIdentity ();
         glOrtho (0, 1, 0, 1, -1, 1);
-        RasterChars(x, y, 0, text, r, g, b);    
+        RasterChars(x, y, 0, text, r, g, b);
     glPopMatrix();
     glMatrixMode (GL_MODELVIEW);
 }
@@ -93,7 +93,7 @@ void DrawAxes()
     glPushAttrib(GL_ENABLE_BIT);
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
- 
+
         //x axis
         glPushMatrix();
             glColor3fv(color_r);
@@ -120,7 +120,7 @@ void DrawAxes()
             glutSolidCube(1.0);
         glPopMatrix();
     glPopAttrib();
-    
+
 }
 
 void DisplayEarth (GLuint texture)
@@ -131,7 +131,7 @@ void DisplayEarth (GLuint texture)
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1};
     GLfloat mat_shininess[] = { 100.0 };
     glColor3f(1,1,1);
- 
+
     glMaterialfv(GL_FRONT, GL_EMISSION, materialEmission);
     glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
@@ -162,7 +162,7 @@ void DisplayPlane (GLuint texture)
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-    
+
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT  );//X
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );//Y
 
@@ -214,8 +214,8 @@ void DisplaySun (GLuint textureSun)
 }
 
 void crossProduct(
-        double uX, double uY, double uZ, 
-        double vX, double vY, double vZ, 
+        double uX, double uY, double uZ,
+        double vX, double vY, double vZ,
         double &oX, double &oY, double &oZ)
 {
     oX = uY*vZ - uZ*vY;
@@ -227,11 +227,11 @@ void crossProduct(
     oZ /= norm;
 }
 
-OBJ * CreateSphere (double R, double space) 
+OBJ * CreateSphere (double R, double space)
 {
     OBJ *obj = new OBJ;
-    
-    obj->numVtx = (180 / space) * 
+
+    obj->numVtx = (180 / space) *
                   (2 + 360 / (2*space)) * 4;
     obj->vtx = new VERTICES[ obj->numVtx ];
     obj->radius = R;
@@ -246,13 +246,13 @@ OBJ * CreateSphere (double R, double space)
         {
             lVR = vR;
             lHR = hR;
-            obj->vtx[n].X = R * 
-                    sin(lHR / 180 * M_PI) * 
+            obj->vtx[n].X = R *
+                    sin(lHR / 180 * M_PI) *
                     sin(lVR / 180 * M_PI);
-            obj->vtx[n].Y = R * 
-                    cos(lHR / 180 * M_PI) * 
+            obj->vtx[n].Y = R *
+                    cos(lHR / 180 * M_PI) *
                     sin(lVR / 180 * M_PI);
-            obj->vtx[n].Z = R * 
+            obj->vtx[n].Z = R *
                     cos(lVR / 180 * M_PI);
             obj->vtx[n].V = lVR / 180;
             obj->vtx[n].U = lHR / 360;
@@ -335,7 +335,7 @@ void display (void) {
         glRotatef(90,1,0,0);
         DisplayPlane (texturePlane);
     glPopMatrix();
-    
+
     if (toggleCam != 2){
         DrawAxes();
         glPushMatrix();
@@ -343,8 +343,8 @@ void display (void) {
             DisplaySun(textureSun);
         glPopMatrix();
         RasterChars(0, objSun->radius, 0, "Sun",  0, 1, 0);
-    }   
-    
+    }
+
     glPushMatrix();
         glRotatef(angleYear,0,1,0);
 
@@ -369,7 +369,7 @@ void init (void) {
     textureEarth = LoadTextureRAW( "earth.bmp" );
     textureSun = LoadTextureRAW( "sun1.bmp" );
     texturePlane = LoadTextureRAW( "stars1.bmp" );
-            
+
     objEarth = CreateSphere(3, 10);
     objSun = CreateSphere(3, 10);
     glEnable(GL_LIGHT0);
@@ -381,7 +381,7 @@ void changeCamera(int angle, int w, int h)
 
     glLoadIdentity ();
 
-    gluPerspective (angle, 
+    gluPerspective (angle,
             (GLfloat)w / (GLfloat)h, 1, 150.0);
 
     glMatrixMode (GL_MODELVIEW);
@@ -394,13 +394,13 @@ void reshape (int w, int h) {
     changeCamera(camAngle, w, h);
 }
 
-void mouse_callback(int button, int state, int x, int y) 
+void mouse_callback(int button, int state, int x, int y)
 {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         lastX = x;
         lastY = y;
         buttonDown = 1;
-    } 
+    }
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
         buttonDown = 0;
     }
@@ -410,13 +410,13 @@ void mouse_motion(int x, int y)
 {
     if (!buttonDown)
         return;
-    
+
     camXYAngle += x - lastX;
     camXZAngle += y - lastY;
-    
+
     camXYAngle = (int)camXYAngle % 360;
     camXZAngle = (int)camXZAngle % 360;
-    
+
     lastX = x;
     lastY = y;
 }
@@ -425,7 +425,7 @@ void idle()
 {
     angleDay+=0.05;
     angleYear+=0.01;
-    
+
     if (angleDay > 360) angleDay = 0;
     else if (angleDay < 0) angleDay = 360;
 
@@ -456,7 +456,7 @@ void keyboard(unsigned char key, int x, int y)
             }else{
                 glEnable( GL_TEXTURE_2D );
             }
-            textureEnebled = !textureEnebled; 
+            textureEnebled = !textureEnebled;
             break;
         case 'l':
             if ( lightingEnebled ){
@@ -464,7 +464,7 @@ void keyboard(unsigned char key, int x, int y)
             }else{
                 glEnable( GL_LIGHTING );
             }
-            lightingEnebled = !lightingEnebled; 
+            lightingEnebled = !lightingEnebled;
             break;
         case 's':
             if ( smoothEnebled ){
@@ -472,14 +472,14 @@ void keyboard(unsigned char key, int x, int y)
             }else{
                 glShadeModel (GL_SMOOTH);
             }
-            smoothEnebled = !smoothEnebled; 
+            smoothEnebled = !smoothEnebled;
             break;
         case '+':
         {
             int inc = camAngle >= 180 ? 0 : 1;
             camAngle += inc;
-            changeCamera(camAngle, 
-                    glutGet(GLUT_WINDOW_WIDTH), 
+            changeCamera(camAngle,
+                    glutGet(GLUT_WINDOW_WIDTH),
                     glutGet(GLUT_WINDOW_HEIGHT));
             break;
         }
@@ -510,14 +510,14 @@ int main (int argc, char **argv) {
 
     init();
 
-    glutDisplayFunc (idle);
+    glutDisplayFunc (display);
 
-    glutIdleFunc (display);
+    glutIdleFunc (idle);
 
     glutReshapeFunc (reshape);
-    
+
     glutKeyboardFunc(keyboard);
-    
+
     glutMotionFunc(mouse_motion);
     glutMouseFunc(mouse_callback);
 
@@ -529,7 +529,7 @@ GLuint LoadTextureRAW( const char * filename )
 {
 
     GLuint texture;
-    
+
     Image* image = loadBMP(filename);
 
     glGenTextures( 1, &texture );

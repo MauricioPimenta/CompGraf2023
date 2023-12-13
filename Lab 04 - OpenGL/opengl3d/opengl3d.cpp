@@ -6,8 +6,8 @@
 void init(int windowSize)
 {
 	glClearColor (0.0, 0.0, 0.0, 0.0);
-	glShadeModel (GL_FLAT);
-//    glShadeModel (GL_SMOOTH);
+//	glShadeModel (GL_FLAT);
+    glShadeModel (GL_SMOOTH);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -72,8 +72,8 @@ void DrawAxes(double size)
 
 void DrawObj(double size)
 {
-	GLfloat materialEmission[] = { 0.00, 0.00, 0.00, 1.0};
-	static GLfloat materialColor[] = { 0.1, 0.1, 0.0, 1.0};
+	GLfloat materialEmission[] = { 0, 0, 0, 1.0};
+	static GLfloat materialColor[] = { 1, 1, 0.0, 1.0};
 	GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0};
 	GLfloat mat_shininess[] = { 128 };
 
@@ -84,7 +84,7 @@ void DrawObj(double size)
 	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 	glColor3f(1,0,0);
 	glutSolidCube(size);
-	//glutSolidSphere(size, 20, 10);
+	// glutSolidSphere(size, 20, 10);
 
 }
 
