@@ -87,7 +87,7 @@ class Human{
 		mesh* HumanMesh; // Mesh for 3D rendering
 
 		// Human atributes for the game - speed, etc..
-		GLfloat speed {5};
+		GLfloat speed {20};
 
 		/* Private Methods */
 		void DrawHuman();
@@ -213,6 +213,13 @@ class Human{
 		/*
 		 * Getters and Setters for the Class
 		 */
+
+		GLfloat getSpeed(){
+			return this->speed;
+		}
+		void setSpeed(GLfloat speed){
+			this->speed = speed;
+		}
 		// Position
 		GLfloat getPositionX(){
 			return this->PositionX;
@@ -354,8 +361,8 @@ class Human{
 			// Save the current matrix
 			glPushMatrix();
 
-			glLoadIdentity();
-			//glLoadMatrixf(this->TransformMatrix);	// Load the transform matrix
+			//glLoadIdentity();
+			glMultMatrixf(this->TransformMatrix);	// Load the transform matrix
 			// Draw the Human
 			DrawHuman();
 
@@ -372,8 +379,8 @@ class Human{
 			
 			printf("\n\nDrawing Human 3D Parts using OpenGL transforms!!! \n\n");
 			
-				glLoadIdentity();
-				//glLoadMatrixf(this->TransformMatrix);	// Load the transform matrix
+				//glLoadIdentity();
+				glMultMatrixf(this->TransformMatrix);	// Load the transform matrix
 
 				glPushMatrix();
 					// Draw Left Leg

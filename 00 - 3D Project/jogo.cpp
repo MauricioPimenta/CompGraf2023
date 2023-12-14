@@ -84,7 +84,7 @@ enum activeCamera{
 	CAM2,
 	CAM3
 };
-camera* Cam1 = new camera(75, {0, 0, 100},{0,0,0},{0,1,0}, 1, 1000);
+camera* Cam1 = new camera(75, {0, 1000, 1000},{0,0,0},{0,1,0}, 1, 10000);
 camera* Cam2 = new camera(50, {0, 0, 100}, {0, 0, 0}, {0, 1, 0}, 1, 1000);
 camera* Cam3 = new camera(90, {0, 0, 100},
 							  {0, 0, 0},
@@ -120,6 +120,7 @@ GLfloat blue = 0.2;
 
 //Human h(X0, Y0, headsize, red, green, blue);
 Human* h = new Human(0, 0, headsize, red, green, blue);
+
 
 Rect arrowX(100, 2, 0, 0, 0, Rect::left, 1.0, 0.1, 0.1);
 Rect arrowY(2, 100, 0, 0, 0, Rect::center_b, 0.1, 1.0, 0.1);
@@ -179,6 +180,7 @@ void init(void)
 	// Initialize the Transformations Matrix for the Human
 	h->setTransformMatrix(modelMatrix);
 	delete modelMatrix;
+	h->setSpeed(20);
 
 	// Define the Default Camera - CAM1
 	activeCam->lookAt();
@@ -215,11 +217,11 @@ void renderScene(){
 	glEnable(GL_DEPTH_TEST);
 
 	// Att camera Position
-	double zoom = activeCam->getCamFOV();
-	double Px = zoom*sin(camXZAngle*M_PI/180)*cos((camXYAngle*M_PI/180));
-	double Py = zoom*sin((camXYAngle*M_PI/180));
-	double Pz = zoom*cos(camXZAngle*M_PI/180)*cos((camXYAngle*M_PI/180));
-	activeCam->setCamPosition({Px, Py, Pz});
+	// double zoom = activeCam->getCamFOV();
+	// double Px = zoom*sin(camXZAngle*M_PI/180)*cos((camXYAngle*M_PI/180));
+	// double Py = zoom*sin((camXYAngle*M_PI/180));
+	// double Pz = zoom*cos(camXZAngle*M_PI/180)*cos((camXYAngle*M_PI/180));
+	// activeCam->setCamPosition({Px, Py, Pz});
 
 	activeCam->setPerspective((GLfloat)winWidth/(GLfloat)winHeight);
 	activeCam->lookAt();
@@ -312,9 +314,8 @@ void idle(void){
 		if (keyStatus[static_cast<int>('w')] == GLUT_DOWN || keyStatus[static_cast<int>('W')] == GLUT_DOWN)
 		{
 			// Move the player upwards only if it is below the center of the screen
-			if (h->getPositionY() <= winCenterY){
-				h->moveXYZf(0, 1.0, 0);
-			}
+			h->moveXYZf(0, 1.0, 0);
+			
 			// only allow for one key pressed each time - this prevent locking the movement when
 			// the player press the keys with 'shift' pressed and then releases the 'shift' key
 			// FIX: this is not working properly quando the CAPSLOCK is on because of the 'if' order below.
@@ -331,9 +332,7 @@ void idle(void){
 		else if (keyStatus[static_cast<int>('s')] == GLUT_DOWN || keyStatus[static_cast<int>('S')] == GLUT_DOWN)
 		{
 			// Move the player downwards (-y) when not on the bottom of the screen
-			if (h->getPositionY() >= (winBottom + h->getheadSize())){
-				h->moveXYZf(0, -1.0, 0);
-			}
+			h->moveXYZf(0, -1.0, 0);
 
 			if (keyStatus[static_cast<int>('s')] == GLUT_DOWN){
 				keyStatus[static_cast<int>('S')] = GLUT_UP;
@@ -350,8 +349,7 @@ void idle(void){
 		if (keyStatus[static_cast<int>('a')] == GLUT_DOWN || keyStatus[static_cast<int>('A')] == GLUT_DOWN)
 		{
 			// Move the player to the left (-x) if not on the left limit of the screen
-			if (h->getPositionX() >= (winLeft+h->getheadSize()))
-				h->moveXYZf(-1.0, 0, 0);
+			h->moveXYZf(-1.0, 0, 0);
 
 
 			if (keyStatus[static_cast<int>('a')] == GLUT_DOWN)
@@ -366,8 +364,7 @@ void idle(void){
 		else if (keyStatus[static_cast<int>('d')] == GLUT_DOWN || keyStatus[static_cast<int>('D')] == GLUT_DOWN)
 		{
 			// Move the player to the right (+x) if not on the right limit of the screen
-			if (h->getPositionX() <= (winRight - h->getheadSize()))
-				h->moveXYZf(+1.0, 0, 0);
+			h->moveXYZf(+1.0, 0, 0);
 
 			if (keyStatus[static_cast<int>('d')] == GLUT_DOWN)
 				keyStatus[static_cast<int>('D')] = GLUT_UP;
@@ -444,10 +441,12 @@ void reshape(GLint w, GLint h){
     glLoadIdentity();
     if (w <= h)
 	// TODO: substitute with the active camera perspective
-        activeCam->setPerspective((GLfloat)w/(GLfloat)h);
+        activeCam->setPerspective((GLfloat)h/(GLfloat)w);
 		//gluPerspective (45, (GLfloat)h/(GLfloat)w, 1, 1000);
-    else
-        gluPerspective (45, (GLfloat)w/(GLfloat)h, 1, 1000);
+    else{
+		activeCam->setPerspective((GLfloat)w/(GLfloat)h);
+		//gluPerspective (45, (GLfloat)w/(GLfloat)h, 1, 1000);
+	}
     glMatrixMode(GL_MODELVIEW);
     glutPostRedisplay();
 }
