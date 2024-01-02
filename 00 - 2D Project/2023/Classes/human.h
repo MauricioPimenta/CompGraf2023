@@ -70,23 +70,12 @@ class Human{
 		// Human atributes for the game - speed, etc..
 		GLfloat speed {5};
 
-		/* Private Methods */
+		/*
+		 * Private Methods
+		 */
 		void DrawHuman();
 
-		void printTransformMatrix(){
-			printf("\n\nTransformMatrix = ");
-			printf("\n[ ");
-			for(int i = 0; i < 16; i++){
-				if (i == 4 || i == 8 || i == 12)
-					printf("\n[ ");
-
-				printf(" %f, ", this->TransformMatrix[i]);
-
-				if (i == 3 || i == 7 || i == 11)
-					printf(" ], ");
-			}
-			printf(" ]\n\n");
-		}
+		void printTransformMatrix();
 
 	public:
 		// Initialize the Human and its parts
@@ -105,154 +94,65 @@ class Human{
 			//...
 		}
 
-		void Draw(){
-			// Save the current matrix
-			glPushMatrix();
+	/*
+	* Getters and Setters for the Class
+	*/
 
-			glLoadIdentity();
-			glLoadMatrixf(this->TransformMatrix);	// Load the transform matrix
-			// Draw the Human
-			DrawHuman();
+	// Position
+		GLfloat getPositionX();
+		GLfloat getPositionY();
+		void setPositioX(GLfloat X);
+		void setPositionY(GLfloat Y);
 
-			// Restore the previous matrix
-			glPopMatrix();
-		}
 
-		/*
-		 * Getters and Setters for the Class
+	// Head
+		GLfloat getheadSize();
+//		GLfloat* getheadColor();
+		void setheadSize(GLfloat sz);
+		void setheadColor(GLfloat R, GLfloat G, GLfloat B);
+
+
+	// Legs - Getters and Setters
+		GLfloat getlegWidth();
+		GLfloat getlegSize();
+//		GLfloat* getlegColor();
+		void setlegWidth(GLfloat w);
+		void setlegSize(GLfloat sz);
+		void setlegColor(GLfloat R, GLfloat G, GLfloat B);
+
+
+	// Gun getters and setters
+		GLfloat getgunWidth();
+		GLfloat getgunSize();
+		void setgunWidth(GLfloat w);
+		void setgunSize(GLfloat sz);
+		void setgunColor(GLfloat R, GLfloat G, GLfloat B);
+
+	// Transform Matrix
+		/**
+		 * @brief Sets the transform matrix for the human.
+		 *
+		 * @param Matrix A pointer to the first element of the transform matrix.
 		 */
-		// Position
-		GLfloat getPositionX(){
-			return this->PositionX;
-		};
-		void setPositioX(GLfloat X){
-			this->PositionX = X;
-		};
-
-		GLfloat getPositionY(){
-			return this->PositionY;
-		}
-		void setPositionY(GLfloat Y){
-			this->PositionY = Y;
-		};
-
-		// Head
-		GLfloat getheadSize(){
-			return this->headSize;
-		}
-		void setheadSize(GLfloat sz){
-			this->headSize = sz;
-		}
-
-		// GLfloat* getheadColor(){
-		// 	GLfloat R = this->headColor[RED];
-		// 	GLfloat G = this->headColor[GREEN];
-		// 	GLfloat B = this->headColor[BLUE];
-
-		// 	GLfloat Color[3] = {R, G, B};
-		// 	return Color;
-		// }
-		void setheadColor(GLfloat R, GLfloat G, GLfloat B){
-			this->headColor[RED] = R;
-			this->headColor[GREEN] = G;
-			this->headColor[BLUE] = B;
-
-			// Calls the setter for the circle color
-		}
-
-		// Legs
-		GLfloat getlegWidth(){
-			return this->legWidth;
-		}
-		void setlegWidth(GLfloat w){
-			this->legWidth = w;
-		}
-
-		GLfloat getlegSize(){
-			return this->legSize;
-		}
-		void setlegSize(GLfloat sz){
-			this->legSize = sz;
-		}
-
-		// GLfloat* getlegColor(){
-		// 	GLfloat R = this->legColor[RED];
-		// 	GLfloat G = this->legColor[GREEN];
-		// 	GLfloat B = this->legColor[BLUE];
-
-		// 	GLfloat Color[3] = {R, G, B};
-		// 	return Color;
-		// }
-		void setlegColor(GLfloat R, GLfloat G, GLfloat B){
-			this->legColor[RED] = R;
-			this->legColor[GREEN] = G;
-			this->legColor[BLUE] = B;
-
-			// Calls the setter for the Rect color
-		}
-
-		// Gun
-		GLfloat getgunWidth(){
-			return this->gunWidth;
-		}
-		GLfloat getgunSize(){
-			return this->gunSize;
-		}
-
-		void setgunWidth(GLfloat w){
-			this->gunWidth = w;
-		}
-		void setgunSize(GLfloat sz){
-			this->gunSize = sz;
-		}
-		void setgunColor(GLfloat R, GLfloat G, GLfloat B){
-			this->legColor[RED] = R;
-			this->legColor[GREEN] = G;
-			this->legColor[BLUE] = B;
-
-			// Calls the setter for the Rect color
-		}
-
-		void setTransformMatrix(GLfloat* Matrix){
-			for(int i = 0; i < 16; i++){
-				this->TransformMatrix[i] = Matrix[i];
-			}
-		}
+		void setTransformMatrix(GLfloat* Matrix);
 
 		/**
 		 * @brief Retrieves a copy of the transform matrix for the human.
 		 *
 		 * @return A pointer to the first element of the copy of the transform matrix.
 		 */
-		GLfloat* getTransformMatrix(){
-			GLfloat* MatrixCopy = new GLfloat[16];
-			for(int i = 0; i < 16; i++){
-				MatrixCopy[i] = this->TransformMatrix[i];
-			}
-			return MatrixCopy;
-		}
+		GLfloat* getTransformMatrix();
 
-		/* Other Functions */
 
-		void moveXYZf(GLfloat moveX, GLfloat moveY, GLfloat moveZ){
-			// save the current matrix
-			glPushMatrix();
-			// Load the transform matrix
-			glLoadMatrixf(this->TransformMatrix);
 
-			// Multiply the Matrix on the stack by the Translate Matrix
-			glTranslatef(moveX*this->speed, moveY*this->speed, moveZ*this->speed);
+		/*
+		 * Other Functions - Define behaviours of human objects
+		 */
 
-			// Get the resulting matrix after the multiplication
-			glGetFloatv(GL_MODELVIEW_MATRIX, this->TransformMatrix);
+		// Draw all the human parts
+		void Draw();
+		void moveXYZf(GLfloat moveX, GLfloat moveY, GLfloat moveZ);
 
-			// Record the change of position for the human
-			this->PositionX += moveX*this->speed;
-			this->PositionY += moveY*this->speed;
-
-			// Restore the previous matrix
-			glPopMatrix();
-		}
 
 		~Human(){
 			// Deleting objects from the memory
