@@ -69,6 +69,9 @@ class Human{
 
 		// Human atributes for the game - speed, etc..
 		GLfloat speed {5};
+		bool runAnimation {true};
+		GLfloat legScale {1};
+		GLfloat legScaleInc {0.1};
 
 		/*
 		 * Private Methods
@@ -101,7 +104,7 @@ class Human{
 	// Position
 		GLfloat getPositionX();
 		GLfloat getPositionY();
-		void setPositioX(GLfloat X);
+		void setPositionX(GLfloat X);
 		void setPositionY(GLfloat Y);
 
 
@@ -151,8 +154,9 @@ class Human{
 
 		// Draw all the human parts
 		void Draw();
-		void moveXYZf(GLfloat moveX, GLfloat moveY, GLfloat moveZ);
 
+		void moveXYZf(GLfloat moveX, GLfloat moveY, GLfloat moveZ);
+		void animateRun();
 
 		~Human(){
 			// Deleting objects from the memory

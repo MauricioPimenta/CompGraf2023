@@ -315,7 +315,7 @@ void idle(void){
 		{
 			// Move the player upwards only if it is below the center of the screen
 			h->moveXYZf(0, 1.0, 0);
-			
+
 			// only allow for one key pressed each time - this prevent locking the movement when
 			// the player press the keys with 'shift' pressed and then releases the 'shift' key
 			// FIX: this is not working properly quando the CAPSLOCK is on because of the 'if' order below.

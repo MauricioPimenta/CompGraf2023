@@ -51,6 +51,9 @@ class Rect{
 			right_t
 		};
 
+	/*
+	* Private Atributes and Methods of the Class
+	*/
 	private:
 
 		enum Colors{
@@ -59,6 +62,7 @@ class Rect{
 			BLUE
 		};
 
+		/* Private Atributes */
 		// Class Atributes
 		GLfloat width {WIDTH};	// inside {} is the default values. same as width = WIDTH
 		GLfloat height {HEIGHT};
@@ -66,12 +70,6 @@ class Rect{
 		GLfloat PositionY {ORIGIN_Y};
 		GLfloat Color[3] {1.0, 1.0, 1.0};	// Colors of the Rectangle - Default is White
 		Anchor	anchorPlace {center};
-
-		/*
-		* Private Atributes and Methods of the Class
-		*/
-
-		/* Private Atributes */
 
 
 		/* Private Methods */
@@ -82,6 +80,9 @@ class Rect{
 	 */
 	public:
 		/* Public Atributes */
+
+
+		/* Public Methods */
 
 		// Constructors of the Class
 		Rect(){
@@ -126,6 +127,7 @@ class Rect{
 			// 	GLfloat color[3] = {R, G, B};
 			// 	return Color;
 			// }
+			
 			int getanchorPlace(){
 				return this->anchorPlace;
 			}
@@ -216,6 +218,10 @@ public:
             Rect::Draw();
         }
     }
+
+	/*
+	 * Define all the getters and setters for the line's attributes
+	 */
 
 
 	~HLine(){
