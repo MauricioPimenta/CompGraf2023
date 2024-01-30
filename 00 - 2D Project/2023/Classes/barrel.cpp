@@ -13,5 +13,6 @@
 /*
  * Libraries
  */
+#include "barrel.h"
+#include <stdio.h>
 
-#include "rect.h"

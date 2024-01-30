@@ -127,13 +127,31 @@ void init(void)
 void keyPress(unsigned char key, int x, int y){
 	// TODO
 	keyStatus[static_cast<int> (key)] = GLUT_DOWN;
+
+	// If the key is any movement key, change the animation state
+	if (key == 'w' || key == 'W' || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D')
+	{
+		h.animateRun();
+	}
+
 }
 
 
 void keyup(unsigned char key, int x, int y)
 {
     keyStatus[static_cast<int>(key)] = GLUT_UP;
-    glutPostRedisplay();
+
+	if (key == 'q' || key == 'Q')
+	{
+		exit(0);
+	}
+	
+	// If the key is any movement key, change the animation state
+	if (key == 'w' || key == 'W' || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D')
+	{
+		h.animateRun();
+	}
+
 }
 
 
@@ -157,7 +175,7 @@ void renderScene(){
 
 
 void idle(void){
-	// TODO
+
 	// A static variable to keep the value after leaving the function call
 		static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);	// in miliseconds
 		int fps = 120;	// Frames per second
@@ -283,6 +301,13 @@ void idle(void){
 
 
 			//glutPostRedisplay();
+		}
+
+		// Only draw the next frame if the 'n' key is pressed
+		if (keyStatus[static_cast<int>('n')] == GLUT_DOWN || keyStatus[static_cast<int>('N')] == GLUT_DOWN)
+		{
+			// allow the next frame to be drawn
+
 		}
 
 }

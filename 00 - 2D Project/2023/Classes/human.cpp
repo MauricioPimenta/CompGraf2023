@@ -9,6 +9,7 @@
 
 #include "human.h"
 #include <stdio.h>
+#include <math.h>
 
 
 /*
@@ -32,27 +33,21 @@ void Human::printTransformMatrix(){
 void Human::DrawHuman(){
 	this->Head.Draw();
 	this->Gun.Draw();
-	
+
 	// If runAnimation is set, it should change the height of the legs using glscalef
 	// to simulate the movement of walking
 	if (this->runAnimation == true)
 	{
-		// Save the current matrix then scale the legs height from 1 to -1, changing the scale by 0.1 each tim it draws
-		glPushMatrix();
-			glScalef(1, legScale, 1);
-			this->leftLeg.Draw();
-		glPopMatrix();
 
-		glPushMatrix();
-			glScalef(1, legScale, 1);
-			this->rightLeg.Draw();
-		glPopMatrix();
+		this->leftLeg.setHeight(this->leftLeg.getheight() - this->legAnimationSpeed); printf("leftLeg height = %f\n", this->leftLeg.getheight());
+		this->leftLeg.Draw();
 
-		// Change the scale of the legs for the next time it draws
-		this->legScale += this->legScaleInc;
-		// If the scale is greater than 1 or less than -1, change the sign of the increment
-		if (this->legScale <= -1 || this->legScale >= 1)
-			this->legScaleInc *= -1;
+		this->rightLeg.setHeight(this->rightLeg.getheight() + this->legAnimationSpeed); printf("rightLeg height = %f\n", this->rightLeg.getheight());
+		this->rightLeg.Draw();
+
+		// if size of legs are greater than 1 or less than -1, change the sign of the increment
+		if (abs(this->leftLeg.getheight()) > abs(this->legSize) || abs(this->rightLeg.getheight()) > abs(this->legSize))
+		 	this->legAnimationSpeed *= -1;
 	}
 	else{
 		this->leftLeg.Draw();

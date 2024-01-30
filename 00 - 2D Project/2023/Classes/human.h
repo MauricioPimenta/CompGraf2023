@@ -69,9 +69,8 @@ class Human{
 
 		// Human atributes for the game - speed, etc..
 		GLfloat speed {5};
-		bool runAnimation {true};
-		GLfloat legScale {1};
-		GLfloat legScaleInc {0.1};
+		bool runAnimation {false};
+		GLfloat legAnimationSpeed {5};
 
 		/*
 		 * Private Methods
