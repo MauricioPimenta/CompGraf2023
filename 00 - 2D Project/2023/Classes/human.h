@@ -81,6 +81,8 @@ class Human{
 
 	public:
 		// Initialize the Human and its parts
+		Human(){
+		};
 		Human(GLfloat PosX, GLfloat PosY, GLfloat Head_Size, GLfloat Red, GLfloat Green, GLfloat Blue) :
 				PositionX{PosX}, PositionY{PosY}, headSize{Head_Size}, headColor{Red, Green, Blue}
 		{

@@ -16,3 +16,12 @@
 #include "barrel.h"
 #include <stdio.h>
 
+
+/*
+ * Class Methods
+ */
+
+// Draw the Barrel
+void barrel::draw(){
+	this->Shape.Draw();
+}

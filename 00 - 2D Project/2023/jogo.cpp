@@ -27,6 +27,7 @@
 #include "Classes/rect.h"
 #include "Classes/circle.h"
 #include "Classes/human.h"
+#include "Classes/barrel.h"
 
 
 /*
@@ -83,7 +84,7 @@ Rect arrowY(2, 100, 0, 0, Rect::center_b, 0.1, 1.0, 0.1);
 
 HLine playerLimit(winWidth, winLeft, winCenterY, 0.2,0.2,0.2, true, 40);
 
-
+barrel b(0, 0);
 
 
 /*
@@ -145,7 +146,7 @@ void keyup(unsigned char key, int x, int y)
 	{
 		exit(0);
 	}
-	
+
 	// If the key is any movement key, change the animation state
 	if (key == 'w' || key == 'W' || key == 'a' || key == 'A' || key == 's' || key == 'S' || key == 'd' || key == 'D')
 	{
@@ -163,7 +164,7 @@ void renderScene(){
 
 	// Draw the objects for the scene
 	h.Draw();
-
+	b.draw();
 
 	// Draw the World Reference Arrows
 	arrowX.Draw();

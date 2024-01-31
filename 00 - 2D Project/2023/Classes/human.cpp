@@ -31,8 +31,6 @@ void Human::printTransformMatrix(){
 }
 
 void Human::DrawHuman(){
-	this->Head.Draw();
-	this->Gun.Draw();
 
 	// If runAnimation is set, it should change the height of the legs using glscalef
 	// to simulate the movement of walking
@@ -53,6 +51,9 @@ void Human::DrawHuman(){
 		this->leftLeg.Draw();
 		this->rightLeg.Draw();
 	}
+
+	this->Head.Draw();
+	this->Gun.Draw();
 }
 
 /*
