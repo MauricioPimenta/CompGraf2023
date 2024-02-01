@@ -14,6 +14,8 @@
 #include <GL/gl.h>	// OpenGL library
 #include <GL/glu.h>	// OpenGL Utility library
 
+#include <array>	// Array library
+
 	/*
 	* Constructors and Destructors
 	*/
@@ -23,65 +25,61 @@
 		*/
 	void Gun::Draw() {
 		// Implementation for Draw function
-		// TODO: Add your implementation here
+		this->gun.Draw();
 	}
 
+	// Implementation for setWidth function
 	void Gun::setWidth(GLfloat gunWidth) {
-		// Implementation for setWidth function
-		// TODO: Add your implementation here
+		this->gun.setWidth(gunWidth);
 	}
 
+	// Implementation for setSize function
 	void Gun::setSize(GLfloat gunSize) {
-		// Implementation for setSize function
-		// TODO: Add your implementation here
+		this->gun.setHeight(gunSize);
 	}
 
+	// Implementation for setColor function
 	void Gun::setColor(GLfloat gunColor[3]) {
-		// Implementation for setColor function
-		// TODO: Add your implementation here
+		this->gun.setColor(gunColor[0], gunColor[1], gunColor[2]);
 	}
 
+	// Implementation for setPosition function
 	void Gun::setPosition(GLfloat PositionX, GLfloat PositionY) {
-		// Implementation for setPosition function
-		// TODO: Add your implementation here
+		this->gun.setPosition(PositionX, PositionY);
 	}
 
-	void Gun::setX(GLfloat PositionX) {
-		// Implementation for setX function
-		// TODO: Add your implementation here
+	// Implementation for setPositionX function
+	void Gun::setPositionX(GLfloat PositionX) {
+		this->gun.setPositionX(PositionX);
 	}
 
-	void Gun::setY(GLfloat PositionY) {
-		// Implementation for setY function
-		// TODO: Add your implementation here
+	// Implementation for setPositionY function
+	void Gun::setPositionY(GLfloat PositionY) {
+		this->gun.setPositionY(PositionY);
 	}
 
+	// Implementation for getWidth function
 	GLfloat Gun::getWidth() {
-		// Implementation for getWidth function
-		// TODO: Add your implementation here
-		return 0.0f; // Placeholder return value
+		return this->gunWidth;
 	}
 
-	GLfloat Gun::getSize() {
-		// Implementation for getSize function
-		// TODO: Add your implementation here
-		return 0.0f; // Placeholder return value
-	}
-
+	// Implementation for getSize function
 	GLfloat* Gun::getColor() {
-		// Implementation for getColor function
-		// TODO: Add your implementation here
-		return nullptr; // Placeholder return value
+		// dynamically allocate memory for the color array
+		GLfloat* color = new GLfloat[3];
+		color[0] = this->gunColor[0];
+		color[1] = this->gunColor[1];
+		color[2] = this->gunColor[2];
+
+		return color;
 	}
 
 	GLfloat Gun::getX() {
 		// Implementation for getX function
-		// TODO: Add your implementation here
-		return 0.0f; // Placeholder return value
+		return this->PositionX; // Placeholder return value
 	}
 
 	GLfloat Gun::getY() {
 		// Implementation for getY function
-		// TODO: Add your implementation here
-		return 0.0f; // Placeholder return value
+		return this->PositionY; // Placeholder return value
 	}

@@ -55,8 +55,8 @@ class Gun{
 		void setSize(GLfloat gunSize);
 		void setColor(GLfloat gunColor[3]);
 		void setPosition(GLfloat PositionX, GLfloat PositionY);
-		void setX(GLfloat PositionX);
-		void setY(GLfloat PositionY);
+		void setPositionX(GLfloat PositionX);
+		void setPositionY(GLfloat PositionY);
 		GLfloat getWidth();
 		GLfloat getSize();
 		GLfloat* getColor();

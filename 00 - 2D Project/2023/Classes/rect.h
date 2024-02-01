@@ -145,6 +145,10 @@ class Rect{
 			void setPositionY(GLfloat Y){
 				this->PositionY = Y;
 			}
+			void setPosition(GLfloat X, GLfloat Y){
+				this->PositionX = X;
+				this->PositionY = Y;
+			}
 			void setColor(GLfloat R, GLfloat G, GLfloat B){
 				this->Color[RED] = R;
 				this->Color[GREEN] = G;
